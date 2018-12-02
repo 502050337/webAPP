@@ -1,4 +1,4 @@
-package com.veryq.gen.Controller;
+package com.veryq.gen.controller;
 
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.data.MiniTableRenderData;
@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * http://deepoove.com/poi-tl/
@@ -57,7 +58,6 @@ public class Main {
         headTextStyle.setColor("7F7F7F");
         headStyle.setBackgroundColor("F2F2F2");
         headStyle.setAlign(STJc.CENTER);
-        rowStyle = new TableStyle();
         rowStyle.setAlign(STJc.CENTER);
 
 
@@ -72,7 +72,7 @@ public class Main {
 
         RowRenderData row = RowRenderData.build("2018-06-12", "SN18090", "李四", "5000元", "快递", "附录A", "T11090");
         row.setStyle(rowStyle);
-        MiniTableRenderData miniTableRenderData = new MiniTableRenderData(header, Arrays.asList(row), MiniTableRenderData.WIDTH_A4_MEDIUM_FULL);
+        MiniTableRenderData miniTableRenderData = new MiniTableRenderData(header, Collections.singletonList(row), MiniTableRenderData.WIDTH_A4_MEDIUM_FULL);
         miniTableRenderData.setStyle(headStyle);
         data.setOrder(miniTableRenderData);
 
@@ -81,7 +81,7 @@ public class Main {
         URL url= Main.class.getResource("/");
         String dir=url.getPath();
         String time=System.currentTimeMillis()+"";
-        String sourcepath= dir+"contract-template.docx";; //System.getProperty("user.dir")+File.separator+"contract-template.docx";
+        String sourcepath= dir+"contract-template.docx"; //System.getProperty("user.dir")+File.separator+"contract-template.docx";
         String destpath=dir+time+".docx";
         System.out.println(sourcepath);
         System.out.println(destpath);
@@ -110,7 +110,7 @@ public class Main {
 
     }
 
-    public static void toPdf(String in,String out) throws OfficeException {
+    private static void toPdf(String in, String out) throws OfficeException {
 
 
 //        File inputFile = new File("document.doc");

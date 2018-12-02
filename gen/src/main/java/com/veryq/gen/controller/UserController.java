@@ -1,6 +1,6 @@
-package com.veryq.gen.Controller;
+package com.veryq.gen.controller;
 
-import com.veryq.gen.DAO.Excelimportdao;
+import com.veryq.gen.dao.Excelimportdao;
 import com.veryqy.jooq.tables.pojos.Commodity;
 import com.veryqy.jooq.tables.pojos.User;
 import org.jooq.DSLContext;
@@ -19,34 +19,36 @@ import static com.veryqy.jooq.Tables.USER;
 @RestController
 public class UserController {
 
-    @Autowired
-    DSLContext ctx;
-    @Autowired
+    private final
     Excelimportdao dao;
-    @Autowired
+    private final
     ExcelImportService excelImportService;
 
+    @Autowired
+    public UserController(Excelimportdao dao, ExcelImportService excelImportService) {
+        this.dao = dao;
+        this.excelImportService = excelImportService;
+    }
 
 
     @GetMapping("/hello")
     @ResponseBody
     @Transactional
-    public int hello(){
+    public int hello() {
 
 
-        ctx.insertInto(USER).columns(USER.USER_,USER.PASSWORD).values("qingtian1","123456").execute();
-        com.veryqy.jooq.tables.User t1=USER;
-        User user=ctx.select().from(t1) .fetchOne().into(User.class);
-        ctx.update(USER).set(USER.USER.PASSWORD,"7777").where(USER.USER_.eq("qingtian")).execute();
-        ctx.delete(USER).where(USER.USER_.eq("qingtian")).execute();
-        System.out.println(user.getUser());
+//        ctx.insertInto(USER).columns(USER.USER_, USER.PASSWORD).values("qingtian1", "123456").execute();
+//        User user = ctx.select().from(USER).fetchOne().into(User.class);
+//        ctx.update(USER).set(com.veryqy.jooq.tables.User.USER.PASSWORD, "7777").where(USER.USER_.eq("qingtian")).execute();
+//        ctx.delete(USER).where(USER.USER_.eq("qingtian")).execute();
+//        System.out.println(user.getUser());
 
         return 0;
     }
 
     @GetMapping("/commodityquery")
     @ResponseBody
-    public List<Commodity> commodityquery(){
+    public List<Commodity> commodityquery() {
         return dao.commodityquery();
     }
 }

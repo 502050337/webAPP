@@ -1,4 +1,4 @@
-package com.veryq.gen.DAO;
+package com.veryq.gen.dao;
 
 import com.veryqy.jooq.tables.pojos.Commodity;
 import org.jooq.DSLContext;
@@ -16,7 +16,7 @@ import static com.veryqy.jooq.Tables.COMMODITY;
 @Component
 public class Excelimportdao {
 
-    final
+    private final
     DSLContext ctx;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -35,7 +35,7 @@ public class Excelimportdao {
         ArrayList<Commodity> list=null;
         Result<Record> result = ctx.select().from(COMMODITY).fetch();
         if(result !=null) {
-            list=new ArrayList<Commodity>();
+            list= new ArrayList<>();
             for(Record record : result) {
                 Commodity temp=new Commodity();
                 temp.setId((String) record.getValue("id"));
