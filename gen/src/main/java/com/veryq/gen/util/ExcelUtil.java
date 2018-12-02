@@ -4,6 +4,7 @@ package com.veryq.gen.util;
  *
  */
 
+import com.veryq.gen.controller.Main;
 import com.veryqy.jooq.tables.Commodity;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 
 /**
@@ -44,16 +46,18 @@ public class ExcelUtil {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+//        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         try {
             // 同时支持Excel 2003、2007
-            File excelFile = new File("E:/征收集体土地构筑物、附属设施补偿标准.xlsx"); // 创建文件对象
+            URL url= Main.class.getResource("/");
+            String dir=url.getPath();
+            File excelFile = new File(dir+"征收集体土地构筑物、附属设施补偿标准.xlsx"); // 创建文件对象
             FileInputStream in = new FileInputStream(excelFile); // 文件流
             checkExcelVaild(excelFile);
             Workbook workbook = getWorkbok(in,excelFile);
             //Workbook workbook = WorkbookFactory.create(is); // 这种方式 Excel2003/2007/2010都是可以处理的
 
-            int sheetCount = workbook.getNumberOfSheets(); // Sheet的数量
+//            int sheetCount = workbook.getNumberOfSheets(); // Sheet的数量
             /**
              * 设置当前excel中sheet的下标：0开始
              */
@@ -90,8 +94,6 @@ public class ExcelUtil {
 //                    }
                     int end = row.getLastCellNum();
                     for (int i = 0; i < end; i++) {
-                        Commodity model = new Commodity();
-
                         Cell cell = row.getCell(i);
                         if (cell == null) {
                             System.out.print("null" + "\t");

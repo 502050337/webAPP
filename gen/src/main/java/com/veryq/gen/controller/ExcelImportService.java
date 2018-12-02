@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URL;
 
 import static com.veryq.gen.util.ExcelUtil.*;
 
@@ -26,7 +27,9 @@ public class ExcelImportService {
         int add = 0;
         try {
             // 同时支持Excel 2003、2007
-            File excelFile = new File("E:/征收集体土地构筑物、附属设施补偿标准.xlsx"); // 创建文件对象
+            URL url= Main.class.getResource("/");
+            String dir=url.getPath();
+            File excelFile = new File(dir+"征收集体土地构筑物、附属设施补偿标准.xlsx"); // 创建文件对象
             FileInputStream in = new FileInputStream(excelFile); // 文件流
             checkExcelVaild(excelFile);
 //            Workbook workbook = getWorkbok(in,excelFile);

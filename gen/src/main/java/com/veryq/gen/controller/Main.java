@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * http://deepoove.com/poi-tl/
@@ -72,93 +71,56 @@ public class Main {
 
         RowRenderData row = RowRenderData.build("2018-06-12", "SN18090", "李四", "5000元", "快递", "附录A", "T11090");
         row.setStyle(rowStyle);
-        MiniTableRenderData miniTableRenderData = new MiniTableRenderData(header, Collections.singletonList(row), MiniTableRenderData.WIDTH_A4_MEDIUM_FULL);
+        MiniTableRenderData miniTableRenderData = new MiniTableRenderData(header, Arrays.asList(row), MiniTableRenderData.WIDTH_A4_MEDIUM_FULL);
         miniTableRenderData.setStyle(headStyle);
         data.setOrder(miniTableRenderData);
 
-
-
-        URL url= Main.class.getResource("/");
-        String dir=url.getPath();
-        String time=System.currentTimeMillis()+"";
-        String sourcepath= dir+"contract-template.docx"; //System.getProperty("user.dir")+File.separator+"contract-template.docx";
-        String destpath=dir+time+".docx";
+        String dir = Main.class.getResource("/").getPath();
+        String time = System.currentTimeMillis() + "";
+        String sourcepath = dir + "contract-template.docx";
+        ; //System.getProperty("user.dir")+File.separator+"contract-template.docx";
+        String destpath = dir + time + ".docx";
         System.out.println(sourcepath);
         System.out.println(destpath);
-        genWord(sourcepath,data,destpath);
-        toPdf(destpath,dir+time+".pdf");
+        genWord(sourcepath, data, destpath);
+        toPdf(destpath, dir + time + ".pdf");
     }
 
 
     private static void genWord(String templateFile, Object data, String outFile) throws Exception {
+
         XWPFTemplate template = XWPFTemplate.compile(templateFile).render(data);
-        FileOutputStream out = new FileOutputStream(outFile);
-        template.write(out);
-        out.flush();
-        out.close();
-        template.close();
-
-//        XWPFTemplate template = XWPFTemplate.compile(templateFile).render(new HashMap<String, Object>(){{
-//            put("title", "Poi-tl 模板引擎");
-//        }});
-//        FileOutputStream out = new FileOutputStream(outFile);
-//        template.write(out);
-//        out.flush();
-//        out.close();
-//        template.close();
-
-
+        try (FileOutputStream out = new FileOutputStream(outFile)) {
+            template.write(out);
+            out.flush();
+        } finally {
+            template.close();
+        }
     }
 
     private static void toPdf(String in, String out) throws OfficeException {
-
-
-//        File inputFile = new File("document.doc");
-//        File outputFile = new File("document.pdf");
-//
-//        String[] args = {"cmd","/c","\\path to libreoffice executable","-headless",  "-accept='socket,host=127.0.0.1,port=8100;urp;'", "-nofirststartwizard"};
-//
-//        try{
-//            Runtime rt = Runtime.getRuntime();
-//            ProcessBuilder pb = new ProcessBuilder(args);
-//            Process pr = pb.start();
-//
-//            // connect to an OpenOffice.org instance running on port 8100
-//            OpenOfficeConnection connection = new SocketOpenOfficeConnection(8100);
-//            connection.connect();
-//        }catch{Exception e){
-//        }
-
 
         File inputFile = new File(in);
         File outputFile = new File(out);
         final LocalOfficeManager officeManager = LocalOfficeManager.install();
         try {
             //https://cdn2.jianshu.io/p/0a1f284931a4
-           long start= System.currentTimeMillis();
-            System.out.println("start start"+start);
+            long start = System.currentTimeMillis();
+            System.out.println("start start" + start);
             officeManager.start();
-            System.out.println("convert start "+(System.currentTimeMillis()-start)/1000);
-            start=System.currentTimeMillis();
-            JodConverter
-                    .convert(inputFile)
-                    .to(outputFile)
-                    .execute();
-            System.out.println("convert 1  "+(System.currentTimeMillis()-start)/1000);
-            start=System.currentTimeMillis();
-            JodConverter
-                    .convert(inputFile)
-                    .to(outputFile)
-                    .execute();
-            System.out.println("convert 2  "+(System.currentTimeMillis()-start)/1000);
+            System.out.println("convert start " + (System.currentTimeMillis() - start) / 1000);
+            start = System.currentTimeMillis();
+            JodConverter.convert(inputFile).to(outputFile).execute();
+            System.out.println("convert 1  " + (System.currentTimeMillis() - start) / 1000);
+            start = System.currentTimeMillis();
+            JodConverter.convert(inputFile).to(outputFile).execute();
+            System.out.println("convert 2  " + (System.currentTimeMillis() - start) / 1000);
         } finally {
             OfficeUtils.stopQuietly(officeManager);
         }
     }
 
 }
-
-
 
 
 //    public static void docxToHtml() throws Exception {
