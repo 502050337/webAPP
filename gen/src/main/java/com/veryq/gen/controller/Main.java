@@ -6,7 +6,7 @@ import com.deepoove.poi.data.RowRenderData;
 import com.deepoove.poi.data.TextRenderData;
 import com.deepoove.poi.data.style.Style;
 import com.deepoove.poi.data.style.TableStyle;
-import com.veryq.gen.Model.Contractor;
+import com.veryq.gen.model.excel.Contractor;
 import org.jodconverter.JodConverter;
 import org.jodconverter.office.LocalOfficeManager;
 import org.jodconverter.office.OfficeException;
@@ -16,7 +16,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 /**
@@ -44,7 +44,6 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
-
 
 //        String path=Main.class.getClass().getResource("application.properties").getPath();
 //        System.out.println(path);
@@ -75,31 +74,21 @@ public class Main {
         miniTableRenderData.setStyle(headStyle);
         data.setOrder(miniTableRenderData);
 
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
+        String time = dateformat.format(System.currentTimeMillis());
         String dir = Main.class.getResource("/").getPath();
-        String time = System.currentTimeMillis() + "";
         String sourcepath = dir + "contract-template.docx";
-        ; //System.getProperty("user.dir")+File.separator+"contract-template.docx";
-        String destpath = dir + time + ".docx";
-        System.out.println(sourcepath);
-        System.out.println(destpath);
-        genWord(sourcepath, data, destpath);
-        toPdf(destpath, dir + time + ".pdf");
+        String destpath = dir + "contract-template" + time + ".docx";
+        String pdfpath = dir + "contract-template" + time + ".pdf";
+//        System.out.println(sourcepath);
+//        System.out.println(destpath);
+        WordConvertor.genWord(sourcepath, data, destpath);
+        toPdf(destpath, pdfpath);
     }
 
 
-    private static void genWord(String templateFile, Object data, String outFile) throws Exception {
-
-        XWPFTemplate template = XWPFTemplate.compile(templateFile).render(data);
-        try (FileOutputStream out = new FileOutputStream(outFile)) {
-            template.write(out);
-            out.flush();
-        } finally {
-            template.close();
-        }
-    }
 
     private static void toPdf(String in, String out) throws OfficeException {
-
         File inputFile = new File(in);
         File outputFile = new File(out);
         final LocalOfficeManager officeManager = LocalOfficeManager.install();

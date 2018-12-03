@@ -10,14 +10,8 @@ import org.springframework.context.ApplicationListener;
 @SpringBootApplication
 public class GenApplication implements ApplicationListener<ApplicationReadyEvent> {
 
-	private final
-	ExcelImportService excelImportService;
-
 	@Autowired
-	public GenApplication(ExcelImportService excelImportService) {
-		this.excelImportService = excelImportService;
-	}
-
+	ExcelImportService excelImportService;
 
 	public static void main(String[] args) {
 
@@ -29,7 +23,6 @@ public class GenApplication implements ApplicationListener<ApplicationReadyEvent
 //		excelImportService.gen();
 	}
 
-	public ExcelImportService getExcelImportService() {
-		return excelImportService;
-	}
+
+
 }

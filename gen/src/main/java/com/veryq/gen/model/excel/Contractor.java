@@ -1,9 +1,10 @@
-package com.veryq.gen.Model;
+package com.veryq.gen.model.excel;
 
 
 import com.deepoove.poi.data.MiniTableRenderData;
 
 public class Contractor {
+
     String contract_sn;
     String name;
     String population;
