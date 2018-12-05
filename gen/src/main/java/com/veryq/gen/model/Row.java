@@ -4,14 +4,15 @@ import com.deepoove.poi.data.RowRenderData;
 import com.veryq.gen.controller.TableTypeEnum;
 import lombok.Builder;
 import lombok.Data;
+import org.codehaus.plexus.util.StringUtils;
 
+import static com.veryq.gen.util.CurrencyUtils.fenToYuan;
 
 
 @Data
-@Builder
 public class Row {
 
-    private int index;
+    private String seq;
     private String id;
     private String category;
     private String subcategory;
@@ -26,21 +27,49 @@ public class Row {
     private Long count;
     private boolean checked;
     private String orderId;
+    private  Long total;
 
 
-    public RowRenderData toRowRenderData(Long index,TableTypeEnum tableTypeEnum){
+    public Row(String seq,Long total){
+        this.seq=seq;
+        this.total=total;
+    }
+
+    public RowRenderData toRowRenderData(TableTypeEnum tableTypeEnum){
         if(TableTypeEnum.LINGMU==tableTypeEnum){
-            return RowRenderData.build(index.toString(), this.getSubcategory(), this.getSubname(), this.getName(), this.getPrice().toString(), this.getCount().toString(),getTotal());
+            return RowRenderData.build(
+                    this.seq.toString(),
+                    StringUtils.defaultString(this.getSubcategory()),
+                    StringUtils.defaultString(this.getSubname()),
+                    StringUtils.defaultString(this.getName()),
+                    this.getPrice()==null?"":fenToYuan(this.getPrice().toString()),
+                    this.getCount()==null?"":this.getCount().toString(),
+                    fenToYuan(getTotal().toString())
+            );
         }else if(TableTypeEnum.QOMGMIAO==tableTypeEnum){
-            return RowRenderData.build(index.toString(), this.getSubcategory(), this.getName(), this.getPrice().toString(), this.getCount().toString(),getTotal() );
+            return RowRenderData.build(
+                    this.seq.toString(),
+                    StringUtils.defaultString(this.getSubcategory()),
+                    StringUtils.defaultString(this.getName()),
+                    this.getPrice()==null?"":fenToYuan(this.getPrice().toString()),
+                    this.getCount()==null?"":this.getCount().toString(),
+                    fenToYuan(getTotal().toString())
+            );
         }else if(TableTypeEnum.FUSHUWU==tableTypeEnum){
-            return RowRenderData.build(index.toString(), this.getName(), this.getSubcategory(), this.getCount().toString(), this.getPrice().toString(), getTotal());
+            return RowRenderData.build(
+                    this.seq.toString(),
+                    StringUtils.defaultString(this.getName()),
+                    StringUtils.defaultString(this.getSubcategory()),
+                    this.getCount()==null?"":this.getCount().toString(),
+                    this.getPrice()==null?"":fenToYuan(this.getPrice().toString()),
+                    fenToYuan(getTotal().toString())
+            );
         }
         return null;
     }
 
-    private String getTotal(){
-        return Long.toString((this.getPrice() * this.getCount()) / 100);
+    public Long getTotal(){
+        return total!=null?total:(this.getPrice() * this.getCount());
     }
 
     public static void main(String[] args) {

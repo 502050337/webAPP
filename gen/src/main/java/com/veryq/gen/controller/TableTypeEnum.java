@@ -12,45 +12,45 @@ public enum  TableTypeEnum {
        public RowRenderData getHeader(){
             TableStyle headStyle = new TableStyle();
             Style headTextStyle = new Style();
-            headTextStyle.setFontFamily("Hei");
+            headTextStyle.setFontFamily("微软雅黑");
             headTextStyle.setFontSize(9);
-            headTextStyle.setColor("7F7F7F");
-            headStyle.setBackgroundColor("F2F2F2");
+            headTextStyle.setColor("000000");
+            headStyle.setBackgroundColor("FFFFFF");
             headStyle.setAlign(STJc.CENTER);
-           return RowRenderData.build(new TextRenderData("日期", headTextStyle),
-                   new TextRenderData("订单编号", headTextStyle), new TextRenderData("销售代表", headTextStyle),
-                   new TextRenderData("离岸价", headTextStyle), new TextRenderData("发货方式", headTextStyle),
-                   new TextRenderData("条款", headTextStyle), new TextRenderData("税号", headTextStyle));
+           return RowRenderData.build(new TextRenderData("序号", headTextStyle),
+                   new TextRenderData("种植类别", headTextStyle), new TextRenderData("田、地名称", headTextStyle),
+                   new TextRenderData("补偿标准（元/亩）", headTextStyle), new TextRenderData("数量（亩）", headTextStyle),
+                   new TextRenderData("补偿金额（元）", headTextStyle));
         }
     },LINGMU{
         @Override
         public RowRenderData getHeader(){
             TableStyle headStyle = new TableStyle();
             Style headTextStyle = new Style();
-            headTextStyle.setFontFamily("Hei");
+            headTextStyle.setFontFamily("微软雅黑");
             headTextStyle.setFontSize(9);
-            headTextStyle.setColor("7F7F7F");
-            headStyle.setBackgroundColor("F2F2F2");
+            headTextStyle.setColor("000000");
+            headStyle.setBackgroundColor("FFFFFF");
             headStyle.setAlign(STJc.CENTER);
-            return RowRenderData.build(new TextRenderData("日期", headTextStyle),
-                    new TextRenderData("订单编号", headTextStyle), new TextRenderData("销售代表", headTextStyle),
-                    new TextRenderData("离岸价", headTextStyle), new TextRenderData("发货方式", headTextStyle),
-                    new TextRenderData("条款", headTextStyle), new TextRenderData("税号", headTextStyle));
+            return RowRenderData.build(new TextRenderData("序号", headTextStyle),
+                    new TextRenderData("林木种类", headTextStyle), new TextRenderData("规格", headTextStyle),
+                    new TextRenderData("位置", headTextStyle), new TextRenderData("补偿标准（元/根、株、公斤）", headTextStyle),
+                    new TextRenderData("数量（根、株、公斤）", headTextStyle), new TextRenderData("补偿金额（元）", headTextStyle));
         }
     },FUSHUWU{
         @Override
         public RowRenderData getHeader(){
             TableStyle headStyle = new TableStyle();
             Style headTextStyle = new Style();
-            headTextStyle.setFontFamily("Hei");
+            headTextStyle.setFontFamily("微软雅黑");
             headTextStyle.setFontSize(9);
-            headTextStyle.setColor("7F7F7F");
-            headStyle.setBackgroundColor("F2F2F2");
+            headTextStyle.setColor("000000");
+            headStyle.setBackgroundColor("FFFFFF");
             headStyle.setAlign(STJc.CENTER);
-            return RowRenderData.build(new TextRenderData("日期", headTextStyle),
-                    new TextRenderData("订单编号", headTextStyle), new TextRenderData("销售代表", headTextStyle),
-                    new TextRenderData("离岸价", headTextStyle), new TextRenderData("发货方式", headTextStyle),
-                    new TextRenderData("条款", headTextStyle), new TextRenderData("税号", headTextStyle));
+            return RowRenderData.build(new TextRenderData("序号", headTextStyle),
+                    new TextRenderData("名称", headTextStyle), new TextRenderData("类别", headTextStyle),
+                    new TextRenderData("数量", headTextStyle), new TextRenderData("补偿标准", headTextStyle),
+                    new TextRenderData("补偿标准（元）", headTextStyle));
         }
     };
     public static TableTypeEnum fromTitle(String title){
