@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Commodity extends TableImpl<CommodityRecord> {
 
-    private static final long serialVersionUID = 730886705;
+    private static final long serialVersionUID = -9995064;
 
     /**
      * The reference instance of <code>public.commodity</code>
@@ -59,39 +59,39 @@ public class Commodity extends TableImpl<CommodityRecord> {
     public final TableField<CommodityRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>public.commodity.col1</code>.
+     * The column <code>public.commodity.category</code>.
      */
-    public final TableField<CommodityRecord, String> COL1 = createField("col1", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<CommodityRecord, String> CATEGORY = createField("category", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>public.commodity.col2</code>.
+     * The column <code>public.commodity.subcategory</code>.
      */
-    public final TableField<CommodityRecord, String> COL2 = createField("col2", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<CommodityRecord, String> SUBCATEGORY = createField("subcategory", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>public.commodity.col3</code>.
+     * The column <code>public.commodity.name</code>.
      */
-    public final TableField<CommodityRecord, String> COL3 = createField("col3", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<CommodityRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>public.commodity.col4</code>.
+     * The column <code>public.commodity.unit</code>.
      */
-    public final TableField<CommodityRecord, String> COL4 = createField("col4", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<CommodityRecord, String> UNIT = createField("unit", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>public.commodity.col5</code>.
+     * The column <code>public.commodity.price</code>.
      */
-    public final TableField<CommodityRecord, String> COL5 = createField("col5", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<CommodityRecord, String> PRICE = createField("price", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>public.commodity.col6</code>.
+     * The column <code>public.commodity.remark</code>.
      */
-    public final TableField<CommodityRecord, String> COL6 = createField("col6", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<CommodityRecord, String> REMARK = createField("remark", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>public.commodity.col7</code>.
+     * The column <code>public.commodity.subname</code>.
      */
-    public final TableField<CommodityRecord, String> COL7 = createField("col7", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<CommodityRecord, String> SUBNAME = createField("subname", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>public.commodity.col8</code>.

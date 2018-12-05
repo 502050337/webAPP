@@ -6,7 +6,7 @@ import com.deepoove.poi.data.RowRenderData;
 import com.deepoove.poi.data.TextRenderData;
 import com.deepoove.poi.data.style.Style;
 import com.deepoove.poi.data.style.TableStyle;
-import com.veryq.gen.model.excel.Contractor;
+import com.veryq.gen.model.excel.ExcelContractor;
 import org.jodconverter.JodConverter;
 import org.jodconverter.office.LocalOfficeManager;
 import org.jodconverter.office.OfficeException;
@@ -59,7 +59,7 @@ public class Main {
         rowStyle.setAlign(STJc.CENTER);
 
 
-        Contractor data = new Contractor();
+        ExcelContractor data = new ExcelContractor();
         data.setContract_sn("11111111");
         data.setName("熊余光");
         data.setTitle("ffffffff");

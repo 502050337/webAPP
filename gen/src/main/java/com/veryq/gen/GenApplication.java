@@ -24,5 +24,4 @@ public class GenApplication implements ApplicationListener<ApplicationReadyEvent
 	}
 
 
-
 }

@@ -65,52 +65,52 @@ public class CommodityDao extends DAOImpl<CommodityRecord, com.veryqy.jooq.table
     }
 
     /**
-     * Fetch records that have <code>col1 IN (values)</code>
+     * Fetch records that have <code>category IN (values)</code>
      */
-    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByCol1(String... values) {
-        return fetch(Commodity.COMMODITY.COL1, values);
+    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByCategory(String... values) {
+        return fetch(Commodity.COMMODITY.CATEGORY, values);
     }
 
     /**
-     * Fetch records that have <code>col2 IN (values)</code>
+     * Fetch records that have <code>subcategory IN (values)</code>
      */
-    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByCol2(String... values) {
-        return fetch(Commodity.COMMODITY.COL2, values);
+    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchBySubcategory(String... values) {
+        return fetch(Commodity.COMMODITY.SUBCATEGORY, values);
     }
 
     /**
-     * Fetch records that have <code>col3 IN (values)</code>
+     * Fetch records that have <code>name IN (values)</code>
      */
-    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByCol3(String... values) {
-        return fetch(Commodity.COMMODITY.COL3, values);
+    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByName(String... values) {
+        return fetch(Commodity.COMMODITY.NAME, values);
     }
 
     /**
-     * Fetch records that have <code>col4 IN (values)</code>
+     * Fetch records that have <code>unit IN (values)</code>
      */
-    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByCol4(String... values) {
-        return fetch(Commodity.COMMODITY.COL4, values);
+    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByUnit(String... values) {
+        return fetch(Commodity.COMMODITY.UNIT, values);
     }
 
     /**
-     * Fetch records that have <code>col5 IN (values)</code>
+     * Fetch records that have <code>price IN (values)</code>
      */
-    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByCol5(String... values) {
-        return fetch(Commodity.COMMODITY.COL5, values);
+    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByPrice(String... values) {
+        return fetch(Commodity.COMMODITY.PRICE, values);
     }
 
     /**
-     * Fetch records that have <code>col6 IN (values)</code>
+     * Fetch records that have <code>remark IN (values)</code>
      */
-    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByCol6(String... values) {
-        return fetch(Commodity.COMMODITY.COL6, values);
+    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByRemark(String... values) {
+        return fetch(Commodity.COMMODITY.REMARK, values);
     }
 
     /**
-     * Fetch records that have <code>col7 IN (values)</code>
+     * Fetch records that have <code>subname IN (values)</code>
      */
-    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchByCol7(String... values) {
-        return fetch(Commodity.COMMODITY.COL7, values);
+    public List<com.veryqy.jooq.tables.pojos.Commodity> fetchBySubname(String... values) {
+        return fetch(Commodity.COMMODITY.SUBNAME, values);
     }
 
     /**

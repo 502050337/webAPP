@@ -157,6 +157,15 @@ public class ExcelUtil {
             case STRING:
                 obj = cell.getStringCellValue();
                 break;
+            case _NONE:
+                obj = "";
+                break;
+            case FORMULA:
+                obj = "";
+                break;
+            case BLANK:
+                obj = "";
+                break;
             default:
                 break;
         }

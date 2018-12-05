@@ -1,7 +1,9 @@
 package com.veryq.gen.model.excel;
 
+import lombok.Data;
+
+@Data
 public class Phone {
-    private String operator; // 运营商
+    private String operator;
     private String phoneNum;
-    // getter setter
 }

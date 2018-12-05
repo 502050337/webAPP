@@ -2,12 +2,9 @@ package com.veryq.gen.dao;
 
 import com.veryqy.jooq.tables.pojos.Commodity;
 import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,26 +29,7 @@ public class Excelimportdao {
     }
 
     public List<Commodity> commodityquery(){
-        ArrayList<Commodity> list=null;
-        Result<Record> result = ctx.select().from(COMMODITY).fetch();
-        if(result !=null) {
-            list= new ArrayList<>();
-            for(Record record : result) {
-                Commodity temp=new Commodity();
-                temp.setId((String) record.getValue("id"));
-                temp.setCol1((String) record.getValue("col1"));
-                temp.setCol2((String) record.getValue("col2"));
-                temp.setCol3((String) record.getValue("col3"));
-                temp.setCol4((String) record.getValue("col4"));
-                temp.setCol5((String) record.getValue("col5"));
-                temp.setCol6((String) record.getValue("col6"));
-                temp.setCol7((String) record.getValue("col7"));
-                temp.setCol8((String) record.getValue("col8"));
-                temp.setCol9((String) record.getValue("col9"));
-                temp.setCol10((String) record.getValue("col10"));
-                list.add(temp);
-            }
-        }
-        return list;
+        return ctx.select().from(COMMODITY).fetch().into(Commodity.class);
     }
+
 }

@@ -28,7 +28,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implements Record11<String, String, String, String, String, String, String, String, String, String, String> {
 
-    private static final long serialVersionUID = -1360687071;
+    private static final long serialVersionUID = -1679519357;
 
     /**
      * Setter for <code>public.commodity.id</code>.
@@ -45,100 +45,100 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
     }
 
     /**
-     * Setter for <code>public.commodity.col1</code>.
+     * Setter for <code>public.commodity.category</code>.
      */
-    public void setCol1(String value) {
+    public void setCategory(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>public.commodity.col1</code>.
+     * Getter for <code>public.commodity.category</code>.
      */
-    public String getCol1() {
+    public String getCategory() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>public.commodity.col2</code>.
+     * Setter for <code>public.commodity.subcategory</code>.
      */
-    public void setCol2(String value) {
+    public void setSubcategory(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>public.commodity.col2</code>.
+     * Getter for <code>public.commodity.subcategory</code>.
      */
-    public String getCol2() {
+    public String getSubcategory() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>public.commodity.col3</code>.
+     * Setter for <code>public.commodity.name</code>.
      */
-    public void setCol3(String value) {
+    public void setName(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>public.commodity.col3</code>.
+     * Getter for <code>public.commodity.name</code>.
      */
-    public String getCol3() {
+    public String getName() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>public.commodity.col4</code>.
+     * Setter for <code>public.commodity.unit</code>.
      */
-    public void setCol4(String value) {
+    public void setUnit(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>public.commodity.col4</code>.
+     * Getter for <code>public.commodity.unit</code>.
      */
-    public String getCol4() {
+    public String getUnit() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>public.commodity.col5</code>.
+     * Setter for <code>public.commodity.price</code>.
      */
-    public void setCol5(String value) {
+    public void setPrice(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>public.commodity.col5</code>.
+     * Getter for <code>public.commodity.price</code>.
      */
-    public String getCol5() {
+    public String getPrice() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>public.commodity.col6</code>.
+     * Setter for <code>public.commodity.remark</code>.
      */
-    public void setCol6(String value) {
+    public void setRemark(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>public.commodity.col6</code>.
+     * Getter for <code>public.commodity.remark</code>.
      */
-    public String getCol6() {
+    public String getRemark() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>public.commodity.col7</code>.
+     * Setter for <code>public.commodity.subname</code>.
      */
-    public void setCol7(String value) {
+    public void setSubname(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>public.commodity.col7</code>.
+     * Getter for <code>public.commodity.subname</code>.
      */
-    public String getCol7() {
+    public String getSubname() {
         return (String) get(7);
     }
 
@@ -229,7 +229,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public Field<String> field2() {
-        return Commodity.COMMODITY.COL1;
+        return Commodity.COMMODITY.CATEGORY;
     }
 
     /**
@@ -237,7 +237,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public Field<String> field3() {
-        return Commodity.COMMODITY.COL2;
+        return Commodity.COMMODITY.SUBCATEGORY;
     }
 
     /**
@@ -245,7 +245,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public Field<String> field4() {
-        return Commodity.COMMODITY.COL3;
+        return Commodity.COMMODITY.NAME;
     }
 
     /**
@@ -253,7 +253,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public Field<String> field5() {
-        return Commodity.COMMODITY.COL4;
+        return Commodity.COMMODITY.UNIT;
     }
 
     /**
@@ -261,7 +261,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public Field<String> field6() {
-        return Commodity.COMMODITY.COL5;
+        return Commodity.COMMODITY.PRICE;
     }
 
     /**
@@ -269,7 +269,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public Field<String> field7() {
-        return Commodity.COMMODITY.COL6;
+        return Commodity.COMMODITY.REMARK;
     }
 
     /**
@@ -277,7 +277,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public Field<String> field8() {
-        return Commodity.COMMODITY.COL7;
+        return Commodity.COMMODITY.SUBNAME;
     }
 
     /**
@@ -317,7 +317,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String component2() {
-        return getCol1();
+        return getCategory();
     }
 
     /**
@@ -325,7 +325,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String component3() {
-        return getCol2();
+        return getSubcategory();
     }
 
     /**
@@ -333,7 +333,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String component4() {
-        return getCol3();
+        return getName();
     }
 
     /**
@@ -341,7 +341,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String component5() {
-        return getCol4();
+        return getUnit();
     }
 
     /**
@@ -349,7 +349,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String component6() {
-        return getCol5();
+        return getPrice();
     }
 
     /**
@@ -357,7 +357,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String component7() {
-        return getCol6();
+        return getRemark();
     }
 
     /**
@@ -365,7 +365,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String component8() {
-        return getCol7();
+        return getSubname();
     }
 
     /**
@@ -405,7 +405,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String value2() {
-        return getCol1();
+        return getCategory();
     }
 
     /**
@@ -413,7 +413,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String value3() {
-        return getCol2();
+        return getSubcategory();
     }
 
     /**
@@ -421,7 +421,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String value4() {
-        return getCol3();
+        return getName();
     }
 
     /**
@@ -429,7 +429,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String value5() {
-        return getCol4();
+        return getUnit();
     }
 
     /**
@@ -437,7 +437,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String value6() {
-        return getCol5();
+        return getPrice();
     }
 
     /**
@@ -445,7 +445,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String value7() {
-        return getCol6();
+        return getRemark();
     }
 
     /**
@@ -453,7 +453,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public String value8() {
-        return getCol7();
+        return getSubname();
     }
 
     /**
@@ -494,7 +494,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public CommodityRecord value2(String value) {
-        setCol1(value);
+        setCategory(value);
         return this;
     }
 
@@ -503,7 +503,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public CommodityRecord value3(String value) {
-        setCol2(value);
+        setSubcategory(value);
         return this;
     }
 
@@ -512,7 +512,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public CommodityRecord value4(String value) {
-        setCol3(value);
+        setName(value);
         return this;
     }
 
@@ -521,7 +521,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public CommodityRecord value5(String value) {
-        setCol4(value);
+        setUnit(value);
         return this;
     }
 
@@ -530,7 +530,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public CommodityRecord value6(String value) {
-        setCol5(value);
+        setPrice(value);
         return this;
     }
 
@@ -539,7 +539,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public CommodityRecord value7(String value) {
-        setCol6(value);
+        setRemark(value);
         return this;
     }
 
@@ -548,7 +548,7 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
      */
     @Override
     public CommodityRecord value8(String value) {
-        setCol7(value);
+        setSubname(value);
         return this;
     }
 
@@ -612,17 +612,17 @@ public class CommodityRecord extends UpdatableRecordImpl<CommodityRecord> implem
     /**
      * Create a detached, initialised CommodityRecord
      */
-    public CommodityRecord(String id, String col1, String col2, String col3, String col4, String col5, String col6, String col7, String col8, String col9, String col10) {
+    public CommodityRecord(String id, String category, String subcategory, String name, String unit, String price, String remark, String subname, String col8, String col9, String col10) {
         super(Commodity.COMMODITY);
 
         set(0, id);
-        set(1, col1);
-        set(2, col2);
-        set(3, col3);
-        set(4, col4);
-        set(5, col5);
-        set(6, col6);
-        set(7, col7);
+        set(1, category);
+        set(2, subcategory);
+        set(3, name);
+        set(4, unit);
+        set(5, price);
+        set(6, remark);
+        set(7, subname);
         set(8, col8);
         set(9, col9);
         set(10, col10);

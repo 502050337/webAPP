@@ -3,12 +3,12 @@ package com.veryq.gen.model.excel;
 
 import com.deepoove.poi.data.MiniTableRenderData;
 
-public class Contractor {
+public class ExcelContractor {
 
-    String contract_sn;
-    String name;
-    String population;
-    String title;
+    private String contract_sn;
+    private String name;
+    private String population;
+    private String title;
 
     private MiniTableRenderData order;
 

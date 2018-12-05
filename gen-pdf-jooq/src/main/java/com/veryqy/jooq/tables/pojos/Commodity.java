@@ -22,16 +22,16 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Commodity implements Serializable {
 
-    private static final long serialVersionUID = -85687246;
+    private static final long serialVersionUID = -774400671;
 
     private String id;
-    private String col1;
-    private String col2;
-    private String col3;
-    private String col4;
-    private String col5;
-    private String col6;
-    private String col7;
+    private String category;
+    private String subcategory;
+    private String name;
+    private String unit;
+    private String price;
+    private String remark;
+    private String subname;
     private String col8;
     private String col9;
     private String col10;
@@ -40,13 +40,13 @@ public class Commodity implements Serializable {
 
     public Commodity(Commodity value) {
         this.id = value.id;
-        this.col1 = value.col1;
-        this.col2 = value.col2;
-        this.col3 = value.col3;
-        this.col4 = value.col4;
-        this.col5 = value.col5;
-        this.col6 = value.col6;
-        this.col7 = value.col7;
+        this.category = value.category;
+        this.subcategory = value.subcategory;
+        this.name = value.name;
+        this.unit = value.unit;
+        this.price = value.price;
+        this.remark = value.remark;
+        this.subname = value.subname;
         this.col8 = value.col8;
         this.col9 = value.col9;
         this.col10 = value.col10;
@@ -54,25 +54,25 @@ public class Commodity implements Serializable {
 
     public Commodity(
         String id,
-        String col1,
-        String col2,
-        String col3,
-        String col4,
-        String col5,
-        String col6,
-        String col7,
+        String category,
+        String subcategory,
+        String name,
+        String unit,
+        String price,
+        String remark,
+        String subname,
         String col8,
         String col9,
         String col10
     ) {
         this.id = id;
-        this.col1 = col1;
-        this.col2 = col2;
-        this.col3 = col3;
-        this.col4 = col4;
-        this.col5 = col5;
-        this.col6 = col6;
-        this.col7 = col7;
+        this.category = category;
+        this.subcategory = subcategory;
+        this.name = name;
+        this.unit = unit;
+        this.price = price;
+        this.remark = remark;
+        this.subname = subname;
         this.col8 = col8;
         this.col9 = col9;
         this.col10 = col10;
@@ -86,60 +86,60 @@ public class Commodity implements Serializable {
         this.id = id;
     }
 
-    public String getCol1() {
-        return this.col1;
+    public String getCategory() {
+        return this.category;
     }
 
-    public void setCol1(String col1) {
-        this.col1 = col1;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getCol2() {
-        return this.col2;
+    public String getSubcategory() {
+        return this.subcategory;
     }
 
-    public void setCol2(String col2) {
-        this.col2 = col2;
+    public void setSubcategory(String subcategory) {
+        this.subcategory = subcategory;
     }
 
-    public String getCol3() {
-        return this.col3;
+    public String getName() {
+        return this.name;
     }
 
-    public void setCol3(String col3) {
-        this.col3 = col3;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCol4() {
-        return this.col4;
+    public String getUnit() {
+        return this.unit;
     }
 
-    public void setCol4(String col4) {
-        this.col4 = col4;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
-    public String getCol5() {
-        return this.col5;
+    public String getPrice() {
+        return this.price;
     }
 
-    public void setCol5(String col5) {
-        this.col5 = col5;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public String getCol6() {
-        return this.col6;
+    public String getRemark() {
+        return this.remark;
     }
 
-    public void setCol6(String col6) {
-        this.col6 = col6;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
-    public String getCol7() {
-        return this.col7;
+    public String getSubname() {
+        return this.subname;
     }
 
-    public void setCol7(String col7) {
-        this.col7 = col7;
+    public void setSubname(String subname) {
+        this.subname = subname;
     }
 
     public String getCol8() {
@@ -171,13 +171,13 @@ public class Commodity implements Serializable {
         StringBuilder sb = new StringBuilder("Commodity (");
 
         sb.append(id);
-        sb.append(", ").append(col1);
-        sb.append(", ").append(col2);
-        sb.append(", ").append(col3);
-        sb.append(", ").append(col4);
-        sb.append(", ").append(col5);
-        sb.append(", ").append(col6);
-        sb.append(", ").append(col7);
+        sb.append(", ").append(category);
+        sb.append(", ").append(subcategory);
+        sb.append(", ").append(name);
+        sb.append(", ").append(unit);
+        sb.append(", ").append(price);
+        sb.append(", ").append(remark);
+        sb.append(", ").append(subname);
         sb.append(", ").append(col8);
         sb.append(", ").append(col9);
         sb.append(", ").append(col10);
