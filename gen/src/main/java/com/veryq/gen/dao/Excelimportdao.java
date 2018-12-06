@@ -13,22 +13,17 @@ import static com.veryqy.jooq.Tables.COMMODITY;
 @Component
 public class Excelimportdao {
 
-    private final
-    DSLContext ctx;
-
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    public Excelimportdao(DSLContext ctx) {
-        this.ctx = ctx;
-    }
+    DSLContext ctx;
 
-    public int add(Commodity model){
+    public int add(Commodity model) {
         String uuid = UUID.randomUUID().toString();
         model.setId(uuid);
-        return ctx.newRecord(COMMODITY,model).store();
+        return ctx.newRecord(COMMODITY, model).store();
     }
 
-    public List<Commodity> commodityquery(){
+    public List<Commodity> commodityquery() {
         return ctx.select().from(COMMODITY).fetch().into(Commodity.class);
     }
 

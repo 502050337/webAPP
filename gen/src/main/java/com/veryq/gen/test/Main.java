@@ -1,11 +1,11 @@
-package com.veryq.gen.controller;
+package com.veryq.gen.test;
 
-import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.data.MiniTableRenderData;
 import com.deepoove.poi.data.RowRenderData;
 import com.deepoove.poi.data.TextRenderData;
 import com.deepoove.poi.data.style.Style;
 import com.deepoove.poi.data.style.TableStyle;
+import com.veryq.gen.bo.FileConvertor;
 import com.veryq.gen.model.excel.ExcelContractor;
 import org.jodconverter.JodConverter;
 import org.jodconverter.office.LocalOfficeManager;
@@ -15,7 +15,6 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
@@ -82,7 +81,7 @@ public class Main {
         String pdfpath = dir + "contract-template" + time + ".pdf";
 //        System.out.println(sourcepath);
 //        System.out.println(destpath);
-        WordConvertor.genWord(sourcepath, data, destpath);
+        FileConvertor.genWord(sourcepath, data, destpath);
         toPdf(destpath, pdfpath);
     }
 

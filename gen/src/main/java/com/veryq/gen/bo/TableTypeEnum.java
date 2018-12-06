@@ -1,4 +1,4 @@
-package com.veryq.gen.controller;
+package com.veryq.gen.bo;
 
 import com.deepoove.poi.data.RowRenderData;
 import com.deepoove.poi.data.TextRenderData;

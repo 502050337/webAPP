@@ -3,15 +3,16 @@ package com.veryq.gen.controller;
 import com.deepoove.poi.data.MiniTableRenderData;
 import com.deepoove.poi.data.RowRenderData;
 import com.deepoove.poi.data.style.TableStyle;
+import com.veryq.gen.bo.ExcelImportBo;
+import com.veryq.gen.bo.FileConvertor;
+import com.veryq.gen.bo.TableTypeEnum;
 import com.veryq.gen.model.Contractor;
 import com.veryq.gen.model.Order;
 import com.veryq.gen.model.Row;
 import com.veryq.gen.model.excel.ExcelContractor;
-import com.veryq.gen.util.CurrencyUtils;
+import com.veryq.gen.test.Main;
+import com.veryqy.jooq.tables.pojos.Commodity;
 import org.apache.commons.io.IOUtils;
-import org.jodconverter.JodConverter;
-import org.jodconverter.office.LocalOfficeManager;
-import org.jodconverter.office.OfficeException;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -34,11 +36,21 @@ import java.util.stream.Collectors;
 public class ContractorController {
 
     @Autowired
-    LocalOfficeManager localOfficeManager;
+    ExcelImportBo bo;
 
     @RequestMapping("/hello")
     public String hello() {
-        return "Hello Word";
+        URL url = Main.class.getResource("/");
+        String dir = url.getPath();
+        File excelFile = new File(dir + "征收集体土地构筑物、附属设施补偿标准.xlsx");
+        String mssg;
+        Integer count = bo.excelimport(excelFile);
+        if (count < 0) {
+            mssg = "导入失败";
+        } else {
+            mssg = "导入失败";
+        }
+        return mssg;
     }
 
     @RequestMapping("/genpdf")
@@ -59,7 +71,7 @@ public class ContractorController {
             }).map(item -> item.toRowRenderData(table)).collect(Collectors.toList());
 
 
-            Long totalSum= orders1.getItems().stream().mapToLong(item->item.getTotal()).sum();
+            Long totalSum = orders1.getItems().stream().mapToLong(item -> item.getTotal()).sum();
             items.add(new Row("总价", totalSum).toRowRenderData(table));
 
 
@@ -73,7 +85,12 @@ public class ContractorController {
 
             SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
             String time = dateformat.format(System.currentTimeMillis());
-            String dir = ContractorController.class.getResource("/").getPath();
+
+            String dir = System.getProperty("user.home")+File.separator+"genpdf"+File.separator;
+            File dirFile=new File(dir);
+            if(!dirFile.exists()){
+                dirFile.mkdir();
+            }
             //模版路径
             String sourcepath = dir + "model1.docx";
             String filenam = data.getName() + "的拆迁合同" + time;
@@ -83,10 +100,10 @@ public class ContractorController {
             //文件所在路径
             String wordpath = dir + wordFileName;
             String pdfpath = dir + pdfFileName;
-            //生成word
-            WordConvertor.genWord(sourcepath, data, wordpath);
-            //word 转pdf
-            toPdf(wordpath, pdfpath);
+
+            FileConvertor.genWord(sourcepath, data, wordpath);//生成word
+
+            FileConvertor.toPdf(wordpath, pdfpath);//word 转pdf
             File targetFile = new File(pdfpath);
             response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
             response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(pdfFileName, "UTF-8"));
@@ -97,11 +114,9 @@ public class ContractorController {
 
     }
 
-
-    private static void toPdf(String in, String out) throws OfficeException {
-        File inputFile = new File(in);
-        File outputFile = new File(out);
-        JodConverter.convert(inputFile).to(outputFile).execute();
+    @RequestMapping("/commodityquery")
+    public List<Commodity> commodityquery() {
+        return bo.commodityquery();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.veryq.gen.controller;
+package com.veryq.gen.bo;
 
 import com.veryq.gen.dao.Excelimportdao;
 import com.veryq.gen.util.CurrencyUtils;
@@ -15,52 +15,46 @@ import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.List;
 
 import static com.veryq.gen.util.ExcelUtil.*;
 
-@CrossOrigin(origins = "*")
 @Component
-public class ExcelImportService {
+public class ExcelImportBo {
 
-
-    private final
-    Excelimportdao dao;
 
     @Autowired
-    public ExcelImportService(Excelimportdao dao) {
-        this.dao = dao;
-    }
+    Excelimportdao dao;
 
     @Transactional
-    public int gen() {
-        int add = 0;
+    public Integer excelimport(File excelFile) {
+        int count = 0;
         try {
-            // 同时支持Excel 2003、2007
-            URL url= Main.class.getResource("/");
-            String dir=url.getPath();
-            File excelFile = new File(dir+"征收集体土地构筑物、附属设施补偿标准.xlsx"); // 创建文件对象
             FileInputStream in = new FileInputStream(excelFile); // 文件流
             checkExcelVaild(excelFile);
 //            Workbook workbook = getWorkbok(in,excelFile);
             Workbook workbook = WorkbookFactory.create(in); // 这种方式 Excel2003/2007/2010都是可以处理的
-            int sheetCount = workbook.getNumberOfSheets(); // Sheet的数量
-            /*
-              设置当前excel中sheet的下标：0开始
-             */
+//            int sheetCount = workbook.getNumberOfSheets(); // Sheet的数量
             Sheet sheet = workbook.getSheetAt(0);   // 遍历第一个Sheet
-            System.out.println("Sheet的数量" + sheetCount);
-            System.out.println("总行数" + sheet.getLastRowNum());
+//            System.out.println("Sheet的数量" + sheetCount);
+//            System.out.println("总行数" + sheet.getLastRowNum());
 
             for (Row row : sheet) {
-                add = getAdd(add, row);
+                Integer Commodity = getcommodity(row);
+                count += Commodity;
             }
         } catch (Exception e) {
+            count = -1;
             e.printStackTrace();
         }
-        return add;
+        return count;
     }
 
-    private int getAdd(int add, Row row) {
+    public List<Commodity> commodityquery() {
+        return dao.commodityquery();
+    }
+
+    private Integer getcommodity(Row row) {
         Commodity model = new Commodity();
         if (row.getCell(0) != null) {
             model.setCategory(getValue(row.getCell(0)) + "");
@@ -76,15 +70,15 @@ public class ExcelImportService {
         }
         if (row.getCell(4) != null) {
 
-            if(getValue(row.getCell(4)).toString().contains("—")) {
+            if (getValue(row.getCell(4)).toString().contains("—")) {
                 String price = StringUtils.substringBeforeLast(getValue(row.getCell(4)).toString(), "—");
                 String price1 = CurrencyUtils.yuanToFen(price);
                 model.setPrice(price1);
-            }else if(getValue(row.getCell(4)).toString().contains("-")){
+            } else if (getValue(row.getCell(4)).toString().contains("-")) {
                 String price = StringUtils.substringBeforeLast(getValue(row.getCell(4)).toString(), "-");
                 String price1 = CurrencyUtils.yuanToFen(price);
                 model.setPrice(price1);
-            }else{
+            } else {
                 String price1 = CurrencyUtils.yuanToFen(getValue(row.getCell(4)) + "");
                 model.setPrice(price1);
             }
@@ -102,8 +96,7 @@ public class ExcelImportService {
             model.setCol9(getValue(row.getCell(8)) + "");
         }
 
-        int Commodity = dao.add(model);
-        add += Commodity;
-        return add;
+        return dao.add(model);
     }
+
 }

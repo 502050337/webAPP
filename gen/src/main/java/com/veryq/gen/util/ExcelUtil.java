@@ -4,8 +4,7 @@ package com.veryq.gen.util;
  *
  */
 
-import com.veryq.gen.controller.Main;
-import com.veryqy.jooq.tables.Commodity;
+import com.veryq.gen.test.Main;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -20,7 +19,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 
 /**
  *

@@ -1,8 +1,7 @@
 package com.veryq.gen.model;
 
 import com.deepoove.poi.data.RowRenderData;
-import com.veryq.gen.controller.TableTypeEnum;
-import lombok.Builder;
+import com.veryq.gen.bo.TableTypeEnum;
 import lombok.Data;
 import org.codehaus.plexus.util.StringUtils;
 
