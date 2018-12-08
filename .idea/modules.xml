@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/demolition.iml" filepath="$PROJECT_DIR$/demolition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gen-parent.iml" filepath="$PROJECT_DIR$/gen-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gen/gen-pdf.iml" filepath="$PROJECT_DIR$/gen/gen-pdf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gen-pdf-jooq/gen-pdf-jooq.iml" filepath="$PROJECT_DIR$/gen-pdf-jooq/gen-pdf-jooq.iml" />
+    </modules>
+  </component>
+</project>

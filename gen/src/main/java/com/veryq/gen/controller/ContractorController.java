@@ -38,8 +38,8 @@ public class ContractorController {
     @Autowired
     ExcelImportBo bo;
 
-    @RequestMapping("/hello")
-    public String hello() {
+    @RequestMapping("/excelimport")
+    public String excelimport() {
         URL url = Main.class.getResource("/");
         String dir = url.getPath();
         File excelFile = new File(dir + "征收集体土地构筑物、附属设施补偿标准.xlsx");
@@ -64,36 +64,39 @@ public class ContractorController {
             TableTypeEnum table = TableTypeEnum.fromTitle(title);
 
             AtomicLong index = new AtomicLong();
-            List<RowRenderData> items = orders1.getItems().stream().map(item -> {
+            List<RowRenderData> indexeditems = orders1.getItems().stream().peek(item -> {
                 Long i = index.incrementAndGet();
                 item.setSeq(i.toString());
-                return item;
             }).map(item -> item.toRowRenderData(table)).collect(Collectors.toList());
 
 
-            Long totalSum = orders1.getItems().stream().mapToLong(item -> item.getTotal()).sum();
-            items.add(new Row("总价", totalSum).toRowRenderData(table));
+            Double totalSum = orders1.getItems().stream().mapToDouble(item -> item.getTotal()).sum();
+            indexeditems.add(new Row("总价", totalSum).toRowRenderData(table));
+
+
+            List<RowRenderData> styledItems = indexeditems.stream().peek(item -> item.setStyle(headStyle)).collect(Collectors.toList());
 
 
             ExcelContractor data = new ExcelContractor();
-            data.setTitle(title);
+            data.setTitle(table.getTitle());
             data.setContract_sn(contractor.getPerson().getIdno());
             data.setName(contractor.getPerson().getName());
-            MiniTableRenderData miniTableRenderData = new MiniTableRenderData(table.getHeader(), items, MiniTableRenderData.WIDTH_A4_MEDIUM_FULL);
+            MiniTableRenderData miniTableRenderData = new MiniTableRenderData(table.getHeader(), styledItems, MiniTableRenderData.WIDTH_A4_MEDIUM_FULL);
             miniTableRenderData.setStyle(headStyle);
             data.setOrder(miniTableRenderData);
 
             SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
             String time = dateformat.format(System.currentTimeMillis());
 
-            String dir = System.getProperty("user.home")+File.separator+"genpdf"+File.separator;
-            File dirFile=new File(dir);
-            if(!dirFile.exists()){
-                dirFile.mkdir();
+            String dir = System.getProperty("user.home") + File.separator + "genpdf" + File.separator;
+            File dirFile = new File(dir);
+            if (!dirFile.exists()&& !dirFile .isDirectory()) {
+                System.out.println(dir+",不存在");
+                dirFile.mkdirs();
             }
             //模版路径
             String sourcepath = dir + "model1.docx";
-            String filenam = data.getName() + "的拆迁合同" + time;
+            String filenam = data.getName() + "_附属物" + time;
             //文件名
             String wordFileName = filenam + ".docx";
             String pdfFileName = filenam + ".pdf";
@@ -118,5 +121,6 @@ public class ContractorController {
     public List<Commodity> commodityquery() {
         return bo.commodityquery();
     }
+
 
 }

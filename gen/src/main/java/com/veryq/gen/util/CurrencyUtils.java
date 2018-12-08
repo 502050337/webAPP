@@ -3,46 +3,34 @@ package com.veryq.gen.util;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class CurrencyUtils {
 
-    public static String yuanToFen(String yuan){
-        if(StringUtils.isBlank(yuan)){
+    public static String yuanToFen(String yuan) {
+        if (StringUtils.isBlank(yuan) && isNumber(yuan)) {
             return yuan;
         }
-        java.text.DecimalFormat df=new java.text.DecimalFormat("0");
-        try{
-            BigDecimal total = new BigDecimal(yuan).multiply(new BigDecimal(100));
-            return df.format(total);
-        }catch (java.lang.NumberFormatException ex)
-        {
-            System.out.println(yuan);
-        }
-        return "";
+        DecimalFormat df = new DecimalFormat("0");
+        BigDecimal total = new BigDecimal(yuan).multiply(new BigDecimal(100));
+        return df.format(total);
+
     }
 
-    public static String fenToYuan(String fen){
-        if(StringUtils.isEmpty(fen)){
+    public static String fenToYuan(String fen) {
+        if (StringUtils.isBlank(fen) && isNumber(fen)) {
             return fen;
         }
-        java.text.DecimalFormat df=new java.text.DecimalFormat("0.00");
-        BigDecimal total = new BigDecimal(fen).divide(new BigDecimal(100));
+        DecimalFormat df = new DecimalFormat("0.00");
+        BigDecimal total = new BigDecimal(fen).divide(new BigDecimal(100), RoundingMode.HALF_UP);
         return df.format(total);
     }
 
 
-
-    public static String doubleToString(double money){
-        java.text.DecimalFormat df=new java.text.DecimalFormat("0.00");
-        BigDecimal total = new BigDecimal(money);
-        return df.format(total);
+    private static boolean isNumber(String str) {
+        String reg = "^[0-9]+(.[0-9]+)?$";
+        return str.matches(reg);
     }
-
-
-    public static void main(String[] args) {
-       String d= CurrencyUtils.doubleToString(-0.01);
-       System.out.println(d);
-
-    }
-
 }

@@ -5,19 +5,20 @@ package com.veryq.gen.util;
  */
 
 import com.veryq.gen.test.Main;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.Units;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
+import org.apache.poi.xwpf.usermodel.*;
+import org.apache.xmlbeans.impl.xb.xmlschema.SpaceAttribute;
 import org.jooq.DSLContext;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.math.BigInteger;
 import java.net.URL;
 
 /**
@@ -41,29 +42,26 @@ public class ExcelUtil {
 
     /**
      * 读取Excel测试，兼容 Excel 2003/2007/2010
-     * @throws Exception
+     * @throws Exception 错误
      */
     public static void main(String[] args) throws Exception {
 //        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         try {
             // 同时支持Excel 2003、2007
-            URL url= Main.class.getResource("/");
-            String dir=url.getPath();
-            File excelFile = new File(dir+"征收集体土地构筑物、附属设施补偿标准.xlsx"); // 创建文件对象
+            URL url = Main.class.getResource("/");
+            String dir = url.getPath();
+            File excelFile = new File(dir + "征收集体土地构筑物、附属设施补偿标准.xlsx"); // 创建文件对象
             FileInputStream in = new FileInputStream(excelFile); // 文件流
             checkExcelVaild(excelFile);
-            Workbook workbook = getWorkbok(in,excelFile);
-            //Workbook workbook = WorkbookFactory.create(is); // 这种方式 Excel2003/2007/2010都是可以处理的
+            Workbook workbook = WorkbookFactory.create(in); // 这种方式 Excel2003/2007/2010都是可以处理的
 
 //            int sheetCount = workbook.getNumberOfSheets(); // Sheet的数量
-            /**
+            /*
              * 设置当前excel中sheet的下标：0开始
              */
             Sheet sheet = workbook.getSheetAt(0);   // 遍历第一个Sheet
-//            Sheet sheet = workbook.getSheetAt(2);   // 遍历第三个Sheet
-
             //获取总行数
-          System.out.println(sheet.getLastRowNum());
+            System.out.println(sheet.getLastRowNum());
 
             // 为跳过第一行目录设置count
             int count = 0;
@@ -97,11 +95,9 @@ public class ExcelUtil {
                             System.out.print("null" + "\t");
                             continue;
                         }
-
                         Object obj = getValue(cell);
                         System.out.print(obj + "\t");
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -111,31 +107,14 @@ public class ExcelUtil {
     }
 
     /**
-     * 判断Excel的版本,获取Workbook
-     * @param in
-     * @param file
-     * @return
-     * @throws IOException
-     */
-    public static Workbook getWorkbok(InputStream in,File file) throws IOException{
-        Workbook wb = null;
-        if(file.getName().endsWith(EXCEL_XLS)){  //Excel 2003
-            wb = new HSSFWorkbook(in);
-        }else if(file.getName().endsWith(EXCEL_XLSX)){  // Excel 2007/2010
-            wb = new XSSFWorkbook(in);
-        }
-        return wb;
-    }
-
-    /**
      * 判断文件是否是excel
-     * @throws Exception
+     * @throws Exception 错误
      */
-    public static void checkExcelVaild(File file) throws Exception{
-        if(!file.exists()){
+    public static void checkExcelVaild(File file) throws Exception {
+        if (!file.exists()) {
             throw new Exception("文件不存在");
         }
-        if(!(file.isFile() && (file.getName().endsWith(EXCEL_XLS) || file.getName().endsWith(EXCEL_XLSX)))){
+        if (!(file.isFile() && (file.getName().endsWith(EXCEL_XLS) || file.getName().endsWith(EXCEL_XLSX)))) {
             throw new Exception("文件不是Excel");
         }
     }
@@ -143,32 +122,168 @@ public class ExcelUtil {
     public static Object getValue(Cell cell) {
         Object obj = null;
         switch (cell.getCellTypeEnum()) {
-            case BOOLEAN:
-                obj = cell.getBooleanCellValue();
+            case _NONE://什么都没有  -1
+                obj = "";
                 break;
-            case ERROR:
-                obj = cell.getErrorCellValue();
-                break;
-            case NUMERIC:
+            case NUMERIC://数值型  0
                 obj = cell.getNumericCellValue();
                 break;
-            case STRING:
+            case STRING:// 字符串型  1
                 obj = cell.getStringCellValue();
                 break;
-            case _NONE:
+            case FORMULA://公式型  2
                 obj = "";
                 break;
-            case FORMULA:
+            case BLANK://空值  3
                 obj = "";
                 break;
-            case BLANK:
-                obj = "";
+            case BOOLEAN://布尔型  4
+                obj = cell.getBooleanCellValue();
                 break;
-            default:
+            case ERROR://错误  5
+                obj = cell.getErrorCellValue();
                 break;
         }
         return obj;
     }
 
+////1. 生成带公司logo的页眉
+//    public void createHeader(XWPFDocument doc, String orgFullName, String logoFilePath) throws Exception {
+//        /*
+//         * 对页眉段落作处理，使公司logo图片在页眉左边，公司全称在页眉右边
+//         * */
+//        CTSectPr sectPr = doc.getDocument().getBody().addNewSectPr();
+//        XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(doc,     sectPr);
+//        XWPFHeader header = headerFooterPolicy.createHeader(XWPFHeaderFooterPolicy.DEFAULT);
+//
+//        XWPFParagraph paragraph = header.getParagraphArray(0);
+//        paragraph.setAlignment(ParagraphAlignment.LEFT);
+//        paragraph.setBorderBottom(Borders.THICK);
+//
+//        CTTabStop tabStop = paragraph.getCTP().getPPr().addNewTabs().addNewTab();
+//        tabStop.setVal(STTabJc.RIGHT);
+//        int twipsPerInch =  1440;
+//        tabStop.setPos(BigInteger.valueOf(6 * twipsPerInch));
+//
+//        XWPFRun run = paragraph.createRun();
+//        setXWPFRunStyle(run,"新宋体",10);
+//
+//        /*
+//         * 根据公司logo在ftp上的路径获取到公司到图片字节流
+//         * 添加公司logo到页眉，logo在左边
+//         * */
+//        if (StringUtils.isNotEmpty(logoFilePath)) {
+//            String imgFile = FileUploadUtil.getLogoFilePath(logoFilePath);
+//            byte[] bs = FtpUtil.downloadFileToIo(imgFile);
+//            InputStream is = new ByteArrayInputStream(bs);
+//
+//            XWPFPicture picture = run.addPicture(is, XWPFDocument.PICTURE_TYPE_JPEG, imgFile, Units.toEMU(80), Units.toEMU(45));
+//
+//            String blipID = "";
+//            for(XWPFPictureData picturedata : header.getAllPackagePictures()) { //这段必须有，不然打开的logo图片不显示
+//                blipID = header.getRelationId(picturedata);
+//            }
+//            picture.getCTPicture().getBlipFill().getBlip().setEmbed(blipID);
+//            run.addTab();
+//            is.close();
+//        }
+//
+//        /*
+//         * 添加字体页眉，公司全称
+//         * 公司全称在右边
+//         * */
+//        if (StringUtils.isNotEmpty(orgFullName)) {
+//            run = paragraph.createRun();
+//            run.setText(orgFullName);
+//            setXWPFRunStyle(run,"新宋体",10);
+//        }
+//    }
 
+    //2. 生成带公司地址和电话的页脚
+    public void createFooter(XWPFDocument document, String telephone, String orgAddress) throws Exception {
+        /*
+         * 生成页脚段落
+         * 给段落设置宽度为占满一行
+         * 为公司地址和公司电话左对齐，页码右对齐创造条件
+         * */
+        CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
+        XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(document, sectPr);
+        XWPFFooter footer = headerFooterPolicy.createFooter(STHdrFtr.DEFAULT);
+        XWPFParagraph paragraph = footer.getParagraphArray(0);
+        paragraph.setAlignment(ParagraphAlignment.LEFT);
+        paragraph.setVerticalAlignment(TextAlignment.CENTER);
+        paragraph.setBorderTop(Borders.THICK);
+        CTTabStop tabStop = paragraph.getCTP().getPPr().addNewTabs().addNewTab();
+        tabStop.setVal(STTabJc.RIGHT);
+        int twipsPerInch = 1440;
+        tabStop.setPos(BigInteger.valueOf(6 * twipsPerInch));
+
+        /*
+         * 给段落创建元素
+         * 设置元素字面为公司地址+公司电话
+         * */
+        XWPFRun run = paragraph.createRun();
+        run.setText((StringUtils.isNotEmpty(orgAddress) ? orgAddress : "") + (StringUtils.isNotEmpty(telephone) ? "  " + telephone : ""));
+        setXWPFRunStyle(run, "仿宋", 10);
+        run.addTab();
+
+        /*
+         * 生成页码
+         * 页码右对齐
+         * */
+        run = paragraph.createRun();
+        run.setText("第");
+        setXWPFRunStyle(run, "仿宋", 10);
+
+        run = paragraph.createRun();
+        CTFldChar fldChar = run.getCTR().addNewFldChar();
+        fldChar.setFldCharType(STFldCharType.Enum.forString("begin"));
+
+        run = paragraph.createRun();
+        CTText ctText = run.getCTR().addNewInstrText();
+        ctText.setStringValue("PAGE  \\* MERGEFORMAT");
+        ctText.setSpace(SpaceAttribute.Space.Enum.forString("preserve"));
+        setXWPFRunStyle(run, "仿宋", 10);
+
+        fldChar = run.getCTR().addNewFldChar();
+        fldChar.setFldCharType(STFldCharType.Enum.forString("end"));
+
+        run = paragraph.createRun();
+        run.setText("页 总共");
+        setXWPFRunStyle(run, "仿宋", 10);
+
+        run = paragraph.createRun();
+        fldChar = run.getCTR().addNewFldChar();
+        fldChar.setFldCharType(STFldCharType.Enum.forString("begin"));
+
+        run = paragraph.createRun();
+        ctText = run.getCTR().addNewInstrText();
+        ctText.setStringValue("NUMPAGES  \\* MERGEFORMAT ");
+        ctText.setSpace(SpaceAttribute.Space.Enum.forString("preserve"));
+        setXWPFRunStyle(run, "仿宋", 10);
+
+        fldChar = run.getCTR().addNewFldChar();
+        fldChar.setFldCharType(STFldCharType.Enum.forString("end"));
+
+        run = paragraph.createRun();
+        run.setText("页");
+        setXWPFRunStyle(run, "仿宋", 10);
+
+    }
+
+//3.其中设置段落元素字体的方法
+
+    /**
+     * 设置页脚的字体样式
+     *
+     * @param r1 段落元素
+     */
+    private void setXWPFRunStyle(XWPFRun r1, String font, int fontSize) {
+        r1.setFontSize(fontSize);
+        CTRPr rpr = r1.getCTR().isSetRPr() ? r1.getCTR().getRPr() : r1.getCTR().addNewRPr();
+        CTFonts fonts = rpr.isSetRFonts() ? rpr.getRFonts() : rpr.addNewRFonts();
+        fonts.setAscii(font);
+        fonts.setEastAsia(font);
+        fonts.setHAnsi(font);
+    }
 }

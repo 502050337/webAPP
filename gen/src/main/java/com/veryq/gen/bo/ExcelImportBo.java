@@ -2,6 +2,7 @@ package com.veryq.gen.bo;
 
 import com.veryq.gen.dao.Excelimportdao;
 import com.veryq.gen.util.CurrencyUtils;
+import com.veryq.gen.util.ExcelUtil;
 import com.veryqy.jooq.tables.pojos.Commodity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
@@ -31,13 +32,11 @@ public class ExcelImportBo {
         int count = 0;
         try {
             FileInputStream in = new FileInputStream(excelFile); // 文件流
-            checkExcelVaild(excelFile);
+            ExcelUtil.checkExcelVaild(excelFile);
 //            Workbook workbook = getWorkbok(in,excelFile);
             Workbook workbook = WorkbookFactory.create(in); // 这种方式 Excel2003/2007/2010都是可以处理的
 //            int sheetCount = workbook.getNumberOfSheets(); // Sheet的数量
             Sheet sheet = workbook.getSheetAt(0);   // 遍历第一个Sheet
-//            System.out.println("Sheet的数量" + sheetCount);
-//            System.out.println("总行数" + sheet.getLastRowNum());
 
             for (Row row : sheet) {
                 Integer Commodity = getcommodity(row);
@@ -95,7 +94,6 @@ public class ExcelImportBo {
         if (row.getCell(8) != null) {
             model.setCol9(getValue(row.getCell(8)) + "");
         }
-
         return dao.add(model);
     }
 

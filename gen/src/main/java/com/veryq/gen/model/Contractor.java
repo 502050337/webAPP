@@ -6,6 +6,6 @@ import com.veryq.gen.model.Person;
 
 @Data
 public class Contractor {
-    public Person person;
-    public List<Order> orders;
+    private Person person;
+    private List<Order> orders;
 }
