@@ -103,7 +103,8 @@ public class ContractorController {
 
             ExcelContractor data = new ExcelContractor();
             data.setTitle(table.getTitle());
-            data.setAgreementId(contractor.getPerson().getIdno());
+            data.setPersonIdno(contractor.getPerson().getIdno());
+            data.setAgreementId(contractor.getAgreementId());
             data.setPersonName(contractor.getPerson().getName());
             MiniTableRenderData miniTableRenderData = new MiniTableRenderData(table.getHeader(), styledItems, MiniTableRenderData.WIDTH_A4_MEDIUM_FULL);
             miniTableRenderData.setStyle(headStyle);
