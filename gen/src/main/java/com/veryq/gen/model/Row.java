@@ -74,8 +74,17 @@ public class Row {
                     this.getPrice() == null ? "" : this.getPrice(),
                     getTotal()
             );
+        }else if (TableTypeEnum.JIANZHUWU == tableTypeEnum) {
+            return RowRenderData.build(
+                    this.seq,
+                    StringUtils.defaultString(this.getName()),
+                    StringUtils.defaultString(this.getSubcategory()),
+                    this.getCount() == null ? "" : this.getCount(),
+                    this.getPrice() == null ? "" : this.getPrice(),
+                    getTotal()
+            );
         }
-        return null;
+        throw new RuntimeException("不支持的表类型"+tableTypeEnum);
     }
 
     public String getTotal() {
