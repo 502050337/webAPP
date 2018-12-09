@@ -10,9 +10,10 @@ import com.veryq.gen.model.Contractor;
 import com.veryq.gen.model.Order;
 import com.veryq.gen.model.Row;
 import com.veryq.gen.model.excel.ExcelContractor;
-import com.veryq.gen.test.Main;
+import com.veryq.gen.util.ExcelUtil;
 import com.veryqy.jooq.tables.pojos.Commodity;
 import org.apache.commons.io.IOUtils;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -70,12 +70,24 @@ public class ContractorController {
             if (count < 0) {
                 mssg = "导入失败";
             } else {
-                mssg = "导入失败";
+                mssg = "导入成功";
             }
         }
         return mssg;
     }
 
+    @RequestMapping("/_excelimport1")
+    public String _excelimport1() {
+        File excelFile = new File("E:/征收集体土地构筑物、附属设施补偿标准1.xlsx");
+        String mssg;
+        Integer count = bo.excelimport(excelFile);
+        if (count < 0) {
+            mssg = "导入失败";
+        } else {
+            mssg = "导入成功";
+        }
+        return mssg;
+    }
 
     @PostMapping("/genpdf")
     public void genpdf(@RequestBody Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -130,7 +142,9 @@ public class ContractorController {
             String pdfpath = dir + pdfFileName;
 
             FileConvertor.genWord(sourcepath, data, wordpath);//生成word
-
+            FileInputStream in = new FileInputStream(wordpath);
+            ExcelUtil excelutil = new ExcelUtil();
+            excelutil.createFooter(new XWPFDocument(in),"公司电话","公司地址");
             FileConvertor.toPdf(wordpath, pdfpath);//word 转pdf
             File targetFile = new File(pdfpath);
             response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
@@ -156,23 +170,14 @@ public class ContractorController {
 
 
     public static void main(String[] args) {
-        Double d = Double.parseDouble("1000.56") + Double.parseDouble("1000.56");
-        System.out.println(d);
-    }
-
-    public String ttttttt() {
-        URL url = Main.class.getResource("/");
-        String dir = url.getPath();
-        File excelFile = new File(dir + "征收集体土地构筑物、附属设施补偿标准.xlsx");
-        String mssg;
-        Integer count = bo.excelimport(excelFile);
-        if (count < 0) {
-            mssg = "导入失败";
-        } else {
-            mssg = "导入失败";
+        try {
+            String wordpath = "E:/model2.docx";
+            FileInputStream in = new FileInputStream(wordpath);
+            ExcelUtil excelutil = new ExcelUtil();
+            excelutil.createFooter(new XWPFDocument(in),"公司电话","公司地址");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return mssg;
     }
-
 
 }

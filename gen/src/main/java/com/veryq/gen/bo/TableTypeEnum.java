@@ -65,8 +65,8 @@ public enum TableTypeEnum {
             headTextStyle.setFontFamily("微软雅黑");
             headTextStyle.setFontSize(9);
             headTextStyle.setColor("000000");
-            return RowRenderData.build(new TextRenderData("序号", headTextStyle),
-                    new TextRenderData("名称", headTextStyle), new TextRenderData("类别", headTextStyle),
+            return RowRenderData.build(new TextRenderData("序号", headTextStyle), new TextRenderData("类别", headTextStyle),
+                    new TextRenderData("名称", headTextStyle),
                     new TextRenderData("数量", headTextStyle), new TextRenderData("补偿标准", headTextStyle),
                     new TextRenderData("补偿标准（元）", headTextStyle));
         }

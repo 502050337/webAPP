@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.util.Units;
+import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
@@ -201,73 +202,104 @@ public class ExcelUtil {
 
     //2. 生成带公司地址和电话的页脚
     public void createFooter(XWPFDocument document, String telephone, String orgAddress) throws Exception {
-        /*
-         * 生成页脚段落
-         * 给段落设置宽度为占满一行
-         * 为公司地址和公司电话左对齐，页码右对齐创造条件
+        /**
+         * https://poi.apache.org/components/document/quick-guide-xwpf.html
+         * http://svn.apache.org/repos/asf/poi/trunk/src/examples/src/org/apache/poi/xwpf/usermodel/examples/
+         * http://svn.apache.org/repos/asf/poi/trunk/src/examples/src/org/apache/poi/xwpf/usermodel/examples/BetterHeaderFooterExample.java
+         *
          * */
-        CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
-        XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(document, sectPr);
-        XWPFFooter footer = headerFooterPolicy.createFooter(STHdrFtr.DEFAULT);
-        XWPFParagraph paragraph = footer.getParagraphArray(0);
-        paragraph.setAlignment(ParagraphAlignment.LEFT);
-        paragraph.setVerticalAlignment(TextAlignment.CENTER);
-        paragraph.setBorderTop(Borders.THICK);
-        CTTabStop tabStop = paragraph.getCTP().getPPr().addNewTabs().addNewTab();
-        tabStop.setVal(STTabJc.RIGHT);
-        int twipsPerInch = 1440;
-        tabStop.setPos(BigInteger.valueOf(6 * twipsPerInch));
 
-        /*
-         * 给段落创建元素
-         * 设置元素字面为公司地址+公司电话
-         * */
-        XWPFRun run = paragraph.createRun();
-        run.setText((StringUtils.isNotEmpty(orgAddress) ? orgAddress : "") + (StringUtils.isNotEmpty(telephone) ? "  " + telephone : ""));
-        setXWPFRunStyle(run, "仿宋", 10);
-        run.addTab();
+        try (XWPFDocument doc = document) {
 
-        /*
-         * 生成页码
-         * 页码右对齐
-         * */
-        run = paragraph.createRun();
-        run.setText("第");
-        setXWPFRunStyle(run, "仿宋", 10);
+            XWPFParagraph p = doc.createParagraph();
 
-        run = paragraph.createRun();
-        CTFldChar fldChar = run.getCTR().addNewFldChar();
-        fldChar.setFldCharType(STFldCharType.Enum.forString("begin"));
+            XWPFRun r = p.createRun();
+            r.setText("Some Text");
+            r.setBold(true);
+            r = p.createRun();
+            r.setText("Goodbye");
+            r.getCTR().addNewPgNum();
 
-        run = paragraph.createRun();
-        CTText ctText = run.getCTR().addNewInstrText();
-        ctText.setStringValue("PAGE  \\* MERGEFORMAT");
-        ctText.setSpace(SpaceAttribute.Space.Enum.forString("preserve"));
-        setXWPFRunStyle(run, "仿宋", 10);
 
-        fldChar = run.getCTR().addNewFldChar();
-        fldChar.setFldCharType(STFldCharType.Enum.forString("end"));
+            // create header/footer functions insert an empty paragraph
+            XWPFHeader head = doc.createHeader(HeaderFooterType.DEFAULT);
+            head.createParagraph().createRun().setText("header");
 
-        run = paragraph.createRun();
-        run.setText("页 总共");
-        setXWPFRunStyle(run, "仿宋", 10);
+            XWPFFooter foot = doc.createFooter(HeaderFooterType.DEFAULT);
+            foot.createParagraph().createRun().setText("footer");
 
-        run = paragraph.createRun();
-        fldChar = run.getCTR().addNewFldChar();
-        fldChar.setFldCharType(STFldCharType.Enum.forString("begin"));
+            try (OutputStream os = new FileOutputStream(new File("d:/header2.docx"))) {
+                doc.write(os);
+            }
+        }
 
-        run = paragraph.createRun();
-        ctText = run.getCTR().addNewInstrText();
-        ctText.setStringValue("NUMPAGES  \\* MERGEFORMAT ");
-        ctText.setSpace(SpaceAttribute.Space.Enum.forString("preserve"));
-        setXWPFRunStyle(run, "仿宋", 10);
-
-        fldChar = run.getCTR().addNewFldChar();
-        fldChar.setFldCharType(STFldCharType.Enum.forString("end"));
-
-        run = paragraph.createRun();
-        run.setText("页");
-        setXWPFRunStyle(run, "仿宋", 10);
+//        /*
+//         * 生成页脚段落
+//         * 给段落设置宽度为占满一行
+//         * 为公司地址和公司电话左对齐，页码右对齐创造条件
+//         * */
+//        CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
+//        XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(document, sectPr);
+//        XWPFFooter footer = headerFooterPolicy.createFooter(STHdrFtr.DEFAULT);
+//        XWPFParagraph paragraph = footer.getParagraphArray(0);
+//        paragraph.setAlignment(ParagraphAlignment.LEFT);
+//        paragraph.setVerticalAlignment(TextAlignment.CENTER);
+//        paragraph.setBorderTop(Borders.THICK);
+//        CTTabStop tabStop = paragraph.getCTP().getPPr().addNewTabs().addNewTab();
+//        tabStop.setVal(STTabJc.RIGHT);
+//        int twipsPerInch = 1440;
+//        tabStop.setPos(BigInteger.valueOf(6 * twipsPerInch));
+//
+//        /*
+//         * 给段落创建元素
+//         * 设置元素字面为公司地址+公司电话
+//         * */
+//        XWPFRun run = paragraph.createRun();
+//        run.setText((StringUtils.isNotEmpty(orgAddress) ? orgAddress : "") + (StringUtils.isNotEmpty(telephone) ? "  " + telephone : ""));
+//        setXWPFRunStyle(run, "仿宋", 10);
+//        run.addTab();
+//
+//        /*
+//         * 生成页码
+//         * 页码右对齐
+//         * */
+//        run = paragraph.createRun();
+//        run.setText("第");
+//        setXWPFRunStyle(run, "仿宋", 10);
+//
+//        run = paragraph.createRun();
+//        CTFldChar fldChar = run.getCTR().addNewFldChar();
+//        fldChar.setFldCharType(STFldCharType.Enum.forString("begin"));
+//
+//        run = paragraph.createRun();
+//        CTText ctText = run.getCTR().addNewInstrText();
+//        ctText.setStringValue("PAGE  \\* MERGEFORMAT");
+//        ctText.setSpace(SpaceAttribute.Space.Enum.forString("preserve"));
+//        setXWPFRunStyle(run, "仿宋", 10);
+//
+//        fldChar = run.getCTR().addNewFldChar();
+//        fldChar.setFldCharType(STFldCharType.Enum.forString("end"));
+//
+//        run = paragraph.createRun();
+//        run.setText("页 总共");
+//        setXWPFRunStyle(run, "仿宋", 10);
+//
+//        run = paragraph.createRun();
+//        fldChar = run.getCTR().addNewFldChar();
+//        fldChar.setFldCharType(STFldCharType.Enum.forString("begin"));
+//
+//        run = paragraph.createRun();
+//        ctText = run.getCTR().addNewInstrText();
+//        ctText.setStringValue("NUMPAGES  \\* MERGEFORMAT ");
+//        ctText.setSpace(SpaceAttribute.Space.Enum.forString("preserve"));
+//        setXWPFRunStyle(run, "仿宋", 10);
+//
+//        fldChar = run.getCTR().addNewFldChar();
+//        fldChar.setFldCharType(STFldCharType.Enum.forString("end"));
+//
+//        run = paragraph.createRun();
+//        run.setText("页");
+//        setXWPFRunStyle(run, "仿宋", 10);
 
     }
 

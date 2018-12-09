@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class JSON {
 
-    static ObjectMapper objectMapper=new ObjectMapper();
+    private static ObjectMapper objectMapper=new ObjectMapper();
 
     public static String stringify(Object obj){
         try {

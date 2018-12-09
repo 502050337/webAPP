@@ -5,7 +5,7 @@ package com.veryq.gen.model;
  * @Package: com.veryq.gen.model
  * @ClassName: CommonSearchRequest
  * @Description: java类作用描述
- * @Author: 唐朝
+ * @Author: 熊光辉
  * @CreateDate: 2018/12/9 0:44
  * @UpdateUser: 更新者
  * @UpdateDate: 2018/12/9 0:44

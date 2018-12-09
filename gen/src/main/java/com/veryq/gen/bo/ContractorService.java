@@ -3,7 +3,6 @@ package com.veryq.gen.bo;
 import com.veryq.gen.dao.ContractorDao;
 import com.veryq.gen.model.Contractor;
 import com.veryq.gen.model.Order;
-import com.veryq.gen.util.CurrencyUtils;
 import com.veryq.gen.util.ExcelUtil;
 import com.veryqy.jooq.tables.pojos.Commodity;
 import org.apache.commons.lang3.StringUtils;
@@ -39,8 +38,13 @@ public class ContractorService {
             Sheet sheet = workbook.getSheetAt(0);   // 遍历第一个Sheet
 
             for (Row row : sheet) {
-                Integer Commodity = getcommodity(row);
-                count += Commodity;
+                if (count < 1) {
+                    count++;
+                    continue;
+                }
+                Integer commodity = saveCommodity(row);
+                count += commodity;
+                System.out.println("count = " + count);
             }
         } catch (Exception e) {
             count = -1;
@@ -54,7 +58,7 @@ public class ContractorService {
     }
 
 
-    private Integer getcommodity(Row row) {
+    private Integer saveCommodity(Row row) {
         Commodity model = new Commodity();
         if (row.getCell(0) != null) {
             model.setCategory(getValue(row.getCell(0)) + "");
@@ -72,15 +76,13 @@ public class ContractorService {
 
             if (getValue(row.getCell(4)).toString().contains("—")) {
                 String price = StringUtils.substringBeforeLast(getValue(row.getCell(4)).toString(), "—");
-                String price1 = CurrencyUtils.yuanToFen(price);
-                model.setPrice(price1);
+                model.setPrice(price);
             } else if (getValue(row.getCell(4)).toString().contains("-")) {
                 String price = StringUtils.substringBeforeLast(getValue(row.getCell(4)).toString(), "-");
-                String price1 = CurrencyUtils.yuanToFen(price);
-                model.setPrice(price1);
+                model.setPrice(price);
             } else {
-                String price1 = CurrencyUtils.yuanToFen(getValue(row.getCell(4)) + "");
-                model.setPrice(price1);
+                String price = getValue(row.getCell(4)) + "";
+                model.setPrice(price);
             }
         }
         if (row.getCell(5) != null) {
@@ -95,7 +97,7 @@ public class ContractorService {
         if (row.getCell(8) != null) {
             model.setCol9(getValue(row.getCell(8)) + "");
         }
-//        model.setCol10();
+        model.setCol10("1");
         return dao.add(model);
     }
 
