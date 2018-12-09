@@ -5,6 +5,9 @@ package com.veryqy.jooq;
 
 
 import com.veryqy.jooq.tables.Commodity;
+import com.veryqy.jooq.tables.Contractor;
+import com.veryqy.jooq.tables.Order;
+import com.veryqy.jooq.tables.Row;
 import com.veryqy.jooq.tables.User;
 
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -1602750070;
+    private static final long serialVersionUID = 2090813722;
 
     /**
      * The reference instance of <code>public</code>
@@ -42,6 +45,21 @@ public class Public extends SchemaImpl {
      * The table <code>public.commodity</code>.
      */
     public final Commodity COMMODITY = com.veryqy.jooq.tables.Commodity.COMMODITY;
+
+    /**
+     * The table <code>public.contractor</code>.
+     */
+    public final Contractor CONTRACTOR = com.veryqy.jooq.tables.Contractor.CONTRACTOR;
+
+    /**
+     * The table <code>public.order</code>.
+     */
+    public final Order ORDER = com.veryqy.jooq.tables.Order.ORDER;
+
+    /**
+     * The table <code>public.row</code>.
+     */
+    public final Row ROW = com.veryqy.jooq.tables.Row.ROW;
 
     /**
      * The table <code>public.user</code>.
@@ -74,6 +92,9 @@ public class Public extends SchemaImpl {
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
             Commodity.COMMODITY,
+            Contractor.CONTRACTOR,
+            Order.ORDER,
+            Row.ROW,
             User.USER);
     }
 }

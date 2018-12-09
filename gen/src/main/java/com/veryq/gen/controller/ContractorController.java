@@ -3,7 +3,7 @@ package com.veryq.gen.controller;
 import com.deepoove.poi.data.MiniTableRenderData;
 import com.deepoove.poi.data.RowRenderData;
 import com.deepoove.poi.data.style.TableStyle;
-import com.veryq.gen.bo.ExcelImportBo;
+import com.veryq.gen.bo.ContractorService;
 import com.veryq.gen.bo.FileConvertor;
 import com.veryq.gen.bo.TableTypeEnum;
 import com.veryq.gen.model.Contractor;
@@ -14,15 +14,15 @@ import com.veryq.gen.test.Main;
 import com.veryqy.jooq.tables.pojos.Commodity;
 import org.apache.commons.io.IOUtils;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -36,24 +36,48 @@ import java.util.stream.Collectors;
 public class ContractorController {
 
     @Autowired
-    ExcelImportBo bo;
+    ContractorService bo;
 
-    @RequestMapping("/excelimport")
-    public String excelimport() {
-        URL url = Main.class.getResource("/");
-        String dir = url.getPath();
-        File excelFile = new File(dir + "征收集体土地构筑物、附属设施补偿标准.xlsx");
-        String mssg;
-        Integer count = bo.excelimport(excelFile);
-        if (count < 0) {
-            mssg = "导入失败";
-        } else {
-            mssg = "导入失败";
+
+    @GetMapping("/{id}")
+    public void getContractorById(@PathVariable("id")  String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        bo.getContractorById(id);
+    }
+
+
+    @PostMapping("/_search")
+    public List<com.veryqy.jooq.tables.pojos.Contractor> searchContractor(@PathVariable("id")  Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        com.veryqy.jooq.tables.pojos.Contractor jooqContractor=new com.veryqy.jooq.tables.pojos.Contractor();
+        BeanUtils.copyProperties(contractor,jooqContractor);
+        return   bo.searchContractor(jooqContractor);
+    }
+
+
+    @RequestMapping("/_excelimport")
+    public String excelimport(MultipartFile tmpFile) {
+        String mssg = "";
+        if (tmpFile != null) {
+            // 获取物理路径
+            String dir = System.getProperty("user.home") + File.separator + "excelimport" + File.separator;
+            File dirFile = new File(dir);
+            if (!dirFile.exists() && !dirFile.isDirectory()) {
+                System.out.println(dir + ",不存在");
+                dirFile.mkdirs();
+            }
+            String tmpFileName = tmpFile.getOriginalFilename(); // 上传的文件名
+            File excelFile = new File(dir + tmpFileName);
+            Integer count = bo.excelimport(excelFile);
+            if (count < 0) {
+                mssg = "导入失败";
+            } else {
+                mssg = "导入失败";
+            }
         }
         return mssg;
     }
 
-    @RequestMapping("/genpdf")
+
+    @PostMapping("/_genpdf")
     public void genpdf(@RequestBody Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TableStyle headStyle = new TableStyle();
         headStyle.setBackgroundColor("FFFFFF");
@@ -64,18 +88,18 @@ public class ContractorController {
             TableTypeEnum table = TableTypeEnum.fromTitle(title);
 
             AtomicLong index = new AtomicLong();
-            List<RowRenderData> indexeditems = orders1.getItems().stream().peek(item -> {
+            List<RowRenderData> indexeditems = orders1.getItems().stream().map(item -> {
                 Long i = index.incrementAndGet();
                 item.setSeq(i.toString());
+                return item;
             }).map(item -> item.toRowRenderData(table)).collect(Collectors.toList());
 
+            Double totalSum = orders1.getItems().stream().mapToDouble(item ->
+                    Double.parseDouble(item.getTotal())
+            ).sum();
 
-            Double totalSum = orders1.getItems().stream().mapToDouble(item -> item.getTotal()).sum();
-            indexeditems.add(new Row("总价", totalSum).toRowRenderData(table));
-
-
+            indexeditems.add(new Row("总价", totalSum.toString()).toRowRenderData(table));
             List<RowRenderData> styledItems = indexeditems.stream().peek(item -> item.setStyle(headStyle)).collect(Collectors.toList());
-
 
             ExcelContractor data = new ExcelContractor();
             data.setTitle(table.getTitle());
@@ -90,8 +114,8 @@ public class ContractorController {
 
             String dir = System.getProperty("user.home") + File.separator + "genpdf" + File.separator;
             File dirFile = new File(dir);
-            if (!dirFile.exists()&& !dirFile .isDirectory()) {
-                System.out.println(dir+",不存在");
+            if (!dirFile.exists() && !dirFile.isDirectory()) {
+                System.out.println(dir + ",不存在");
                 dirFile.mkdirs();
             }
             //模版路径
@@ -114,12 +138,39 @@ public class ContractorController {
 
             return;
         }
-
     }
 
-    @RequestMapping("/commodityquery")
-    public List<Commodity> commodityquery() {
+
+    @PutMapping
+    public void save(@RequestBody Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        bo.save("1",contractor);
+    }
+
+
+    @RequestMapping("/commoditys")
+    public List<Commodity> getCommoditys() {
         return bo.commodityquery();
+    }
+
+
+
+    public static void main(String[] args) {
+        Double d = Double.parseDouble("1000.56") + Double.parseDouble("1000.56");
+        System.out.println(d);
+    }
+
+    public String ttttttt() {
+        URL url = Main.class.getResource("/");
+        String dir = url.getPath();
+        File excelFile = new File(dir + "征收集体土地构筑物、附属设施补偿标准.xlsx");
+        String mssg;
+        Integer count = bo.excelimport(excelFile);
+        if (count < 0) {
+            mssg = "导入失败";
+        } else {
+            mssg = "导入失败";
+        }
+        return mssg;
     }
 
 

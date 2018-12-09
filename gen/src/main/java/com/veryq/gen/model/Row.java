@@ -3,11 +3,16 @@ package com.veryq.gen.model;
 import com.deepoove.poi.data.RowRenderData;
 import com.veryq.gen.bo.TableTypeEnum;
 import lombok.Data;
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import static com.veryq.gen.util.CurrencyUtils.fenToYuan;
 
 
+/**
+ * 表格的一行信息
+ */
 @Data
 public class Row {
 
@@ -22,14 +27,13 @@ public class Row {
     private String col8;
     private String col9;
     private String col10;
-    private Long price;//单价
-    private Double count;//数量
+    private String price;//单价
+    private String count;//数量
     private boolean checked;
     private String orderId;
-    private Double total;//总价
+    private String total;//总价
 
-
-    public Row(String seq, Double total) {
+    public Row(String seq, String total) {
         this.seq = seq;
         this.total = total;
     }
@@ -37,38 +41,59 @@ public class Row {
     public RowRenderData toRowRenderData(TableTypeEnum tableTypeEnum) {
         if (TableTypeEnum.LINGMU == tableTypeEnum) {
             return RowRenderData.build(
-                    this.seq.toString(),
+                    this.seq,
                     StringUtils.defaultString(this.getSubcategory()),
                     StringUtils.defaultString(this.getSubname()),
                     StringUtils.defaultString(this.getName()),
-                    this.getPrice() == null ? "" : fenToYuan(this.getPrice().toString()),
-                    this.getCount() == null ? "" : this.getCount().toString(),
-                    fenToYuan(getTotal().toString())
+                    this.getPrice() == null ? "" : fenToYuan(this.getPrice()),
+                    this.getCount() == null ? "" : this.getCount(),
+                    fenToYuan(getTotal())
             );
         } else if (TableTypeEnum.QOMGMIAO == tableTypeEnum) {
             return RowRenderData.build(
-                    this.seq.toString(),
+                    this.seq,
                     StringUtils.defaultString(this.getSubcategory()),
                     StringUtils.defaultString(this.getName()),
-                    this.getPrice() == null ? "" : fenToYuan(this.getPrice().toString()),
-                    this.getCount() == null ? "" : this.getCount().toString(),
-                    fenToYuan(getTotal().toString())
+                    this.getPrice() == null ? "" : this.getPrice(),
+                    this.getCount() == null ? "" : this.getCount(),
+                    fenToYuan(getTotal())
             );
         } else if (TableTypeEnum.FUSHUWU == tableTypeEnum) {
             return RowRenderData.build(
-                    this.seq.toString(),
+                    this.seq,
                     StringUtils.defaultString(this.getName()),
                     StringUtils.defaultString(this.getSubcategory()),
-                    this.getCount() == null ? "" : this.getCount().toString(),
-                    this.getPrice() == null ? "" : fenToYuan(this.getPrice().toString()),
-                    fenToYuan(getTotal().toString())
+                    this.getCount() == null ? "" : this.getCount(),
+                    this.getPrice() == null ? "" : this.getPrice(),
+                    fenToYuan(getTotal())
             );
         }
         return null;
     }
 
-    public Double getTotal() {
-        return total != null ? total : (this.getPrice() * this.getCount());
+    public String getTotal() {
+        if(StringUtils.isNumeric(this.getPrice())&& StringUtils.isNumeric(this.getCount())){
+            DecimalFormat df = new DecimalFormat("0.00");
+            BigDecimal total = new BigDecimal(this.getPrice()).multiply(new BigDecimal(this.getCount()));
+            return df.format(total);
+        }
+        return "";
+    }
+
+
+    public com.veryqy.jooq.tables.pojos.Row toJooqRow(){
+        com.veryqy.jooq.tables.pojos.Row row=new com.veryqy.jooq.tables.pojos.Row();
+        row.setChecked(this.isChecked());
+        row.setCount(this.count);
+        row.setCommodityId(this.id);
+        row.setName(this.name);
+        row.setPrice(this.getPrice());
+        row.setRemark(this.getRemark());
+        row.setSubcategory(this.getSubcategory());
+        row.setSubname(this.getSubname());
+        row.setTotal(this.getTotal());
+        row.setUnit(this.getUnit());
+        return row;
     }
 
 }

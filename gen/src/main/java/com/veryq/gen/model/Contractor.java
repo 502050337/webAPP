@@ -1,11 +1,24 @@
 package com.veryq.gen.model;
 
+import com.veryq.gen.util.JSON;
 import lombok.Data;
 import java.util.List;
-import com.veryq.gen.model.Person;
 
 @Data
 public class Contractor {
-    private Person person;
-    private List<Order> orders;
+    private String agreementId; //协议编号
+    private String name;//合同名称
+    private Person person; //户主信息
+    private List<Order> orders;//协议内容
+
+    public com.veryqy.jooq.tables.pojos.Contractor toJOOQContractor(){
+        com.veryqy.jooq.tables.pojos.Contractor contractor=new com.veryqy.jooq.tables.pojos.Contractor();
+        contractor.setAgreementId(this.agreementId);
+        contractor.setName(this.name);
+        contractor.setPersonName(this.getPerson().getName());
+        contractor.setPersonIdno(this.getPerson().getIdno());
+        contractor.setJosn(JSON.stringify(this));
+        return contractor;
+    }
+
 }

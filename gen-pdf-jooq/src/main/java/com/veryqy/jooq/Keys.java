@@ -5,8 +5,14 @@ package com.veryqy.jooq;
 
 
 import com.veryqy.jooq.tables.Commodity;
+import com.veryqy.jooq.tables.Contractor;
+import com.veryqy.jooq.tables.Order;
+import com.veryqy.jooq.tables.Row;
 import com.veryqy.jooq.tables.User;
 import com.veryqy.jooq.tables.records.CommodityRecord;
+import com.veryqy.jooq.tables.records.ContractorRecord;
+import com.veryqy.jooq.tables.records.OrderRecord;
+import com.veryqy.jooq.tables.records.RowRecord;
 import com.veryqy.jooq.tables.records.UserRecord;
 
 import javax.annotation.Generated;
@@ -39,6 +45,9 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<CommodityRecord> COMMODITY_PKEY = UniqueKeys0.COMMODITY_PKEY;
+    public static final UniqueKey<ContractorRecord> CONTRACTOR_PKEY = UniqueKeys0.CONTRACTOR_PKEY;
+    public static final UniqueKey<OrderRecord> ORDER_PKEY = UniqueKeys0.ORDER_PKEY;
+    public static final UniqueKey<RowRecord> ROW_PKEY = UniqueKeys0.ROW_PKEY;
     public static final UniqueKey<UserRecord> USER_PKEY = UniqueKeys0.USER_PKEY;
 
     // -------------------------------------------------------------------------
@@ -52,6 +61,9 @@ public class Keys {
 
     private static class UniqueKeys0 {
         public static final UniqueKey<CommodityRecord> COMMODITY_PKEY = Internal.createUniqueKey(Commodity.COMMODITY, "commodity_pkey", Commodity.COMMODITY.ID);
+        public static final UniqueKey<ContractorRecord> CONTRACTOR_PKEY = Internal.createUniqueKey(Contractor.CONTRACTOR, "contractor_pkey", Contractor.CONTRACTOR.ID);
+        public static final UniqueKey<OrderRecord> ORDER_PKEY = Internal.createUniqueKey(Order.ORDER, "Order_pkey", Order.ORDER.ID);
+        public static final UniqueKey<RowRecord> ROW_PKEY = Internal.createUniqueKey(Row.ROW, "row_pkey", Row.ROW.ID);
         public static final UniqueKey<UserRecord> USER_PKEY = Internal.createUniqueKey(User.USER, "user_pkey", User.USER.ID);
     }
 }

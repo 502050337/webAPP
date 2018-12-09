@@ -6,11 +6,12 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.UUID;
 
 public class CurrencyUtils {
 
     public static String yuanToFen(String yuan) {
-        if (StringUtils.isBlank(yuan) && isNumber(yuan)) {
+        if (StringUtils.isNumeric(yuan)) {
             return yuan;
         }
         DecimalFormat df = new DecimalFormat("0");
@@ -20,7 +21,7 @@ public class CurrencyUtils {
     }
 
     public static String fenToYuan(String fen) {
-        if (StringUtils.isBlank(fen) && isNumber(fen)) {
+        if (StringUtils.isNumeric(fen)) {
             return fen;
         }
         DecimalFormat df = new DecimalFormat("0.00");
@@ -28,9 +29,9 @@ public class CurrencyUtils {
         return df.format(total);
     }
 
-
-    private static boolean isNumber(String str) {
-        String reg = "^[0-9]+(.[0-9]+)?$";
-        return str.matches(reg);
+    public static String getUUID32(){
+        String uuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+        return uuid;
+//  return UUID.randomUUID().toString().replace("-", "").toLowerCase();
     }
 }
