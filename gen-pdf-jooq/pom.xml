@@ -94,9 +94,9 @@
 
 					<jdbc>
 						<driver>org.postgresql.Driver</driver>
-						<url>jdbc:postgresql://localhost:5432/postgres</url>
+						<url>jdbc:postgresql://47.106.199.127:5432/postgres</url>
 						<user>postgres</user>
-						<password>123456</password>
+						<password>shasha123456</password>
 					</jdbc>
 
 					<generator>

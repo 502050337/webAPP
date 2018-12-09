@@ -46,7 +46,7 @@ public class ContractorController {
 
 
     @PostMapping("/_search")
-    public List<com.veryqy.jooq.tables.pojos.Contractor> searchContractor(@PathVariable("id")  Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public List<com.veryqy.jooq.tables.pojos.Contractor> searchContractor(@RequestBody  Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
         com.veryqy.jooq.tables.pojos.Contractor jooqContractor=new com.veryqy.jooq.tables.pojos.Contractor();
         BeanUtils.copyProperties(contractor,jooqContractor);
         return   bo.searchContractor(jooqContractor);
@@ -77,7 +77,7 @@ public class ContractorController {
     }
 
 
-    @PostMapping("/_genpdf")
+    @PostMapping("/genpdf")
     public void genpdf(@RequestBody Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TableStyle headStyle = new TableStyle();
         headStyle.setBackgroundColor("FFFFFF");
@@ -103,8 +103,8 @@ public class ContractorController {
 
             ExcelContractor data = new ExcelContractor();
             data.setTitle(table.getTitle());
-            data.setContract_sn(contractor.getPerson().getIdno());
-            data.setName(contractor.getPerson().getName());
+            data.setAgreementId(contractor.getPerson().getIdno());
+            data.setPersonName(contractor.getPerson().getName());
             MiniTableRenderData miniTableRenderData = new MiniTableRenderData(table.getHeader(), styledItems, MiniTableRenderData.WIDTH_A4_MEDIUM_FULL);
             miniTableRenderData.setStyle(headStyle);
             data.setOrder(miniTableRenderData);
@@ -120,7 +120,7 @@ public class ContractorController {
             }
             //模版路径
             String sourcepath = dir + "model1.docx";
-            String filenam = data.getName() + "_附属物" + time;
+            String filenam = data.getPersonName() + "_附属物" + time;
             //文件名
             String wordFileName = filenam + ".docx";
             String pdfFileName = filenam + ".pdf";

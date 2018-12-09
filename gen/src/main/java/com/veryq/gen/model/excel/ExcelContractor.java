@@ -6,12 +6,10 @@ import lombok.Data;
 
 @Data
 public class ExcelContractor {
-
-    private String contract_sn;
-    private String name;
-    private String population;
     private String title;
+    private String agreementId;
+    private String personName;
+    private String personAddress;
+    private String personIdno;
     private MiniTableRenderData order;
-
-
 }

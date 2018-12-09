@@ -59,8 +59,8 @@ public class Main {
 
 
         ExcelContractor data = new ExcelContractor();
-        data.setContract_sn("11111111");
-        data.setName("熊余光");
+        data.setAgreementId("11111111");
+        data.setPersonName("熊余光");
         data.setTitle("ffffffff");
         RowRenderData header = RowRenderData.build(new TextRenderData("日期", headTextStyle),
                 new TextRenderData("订单编号", headTextStyle), new TextRenderData("销售代表", headTextStyle),

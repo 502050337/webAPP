@@ -3,12 +3,12 @@ package com.veryq.gen.model;
 import com.deepoove.poi.data.RowRenderData;
 import com.veryq.gen.bo.TableTypeEnum;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import static com.veryq.gen.util.CurrencyUtils.fenToYuan;
-
 
 /**
  * 表格的一行信息
@@ -16,6 +16,10 @@ import static com.veryq.gen.util.CurrencyUtils.fenToYuan;
 @Data
 public class Row {
 
+    @Tolerate
+    public Row(){
+
+    }
     private String seq;//序号
     private String id;//ID
     private String category;//一级分类
@@ -33,6 +37,9 @@ public class Row {
     private String orderId;
     private String total;//总价
 
+    public static void main(String[] args) {
+        System.out.println(NumberUtils.isParsable("1113.00"));;
+    }
     public Row(String seq, String total) {
         this.seq = seq;
         this.total = total;
@@ -45,9 +52,9 @@ public class Row {
                     StringUtils.defaultString(this.getSubcategory()),
                     StringUtils.defaultString(this.getSubname()),
                     StringUtils.defaultString(this.getName()),
-                    this.getPrice() == null ? "" : fenToYuan(this.getPrice()),
+                    this.getPrice() == null ? "" : this.getPrice(),
                     this.getCount() == null ? "" : this.getCount(),
-                    fenToYuan(getTotal())
+                    getTotal()
             );
         } else if (TableTypeEnum.QOMGMIAO == tableTypeEnum) {
             return RowRenderData.build(
@@ -56,7 +63,7 @@ public class Row {
                     StringUtils.defaultString(this.getName()),
                     this.getPrice() == null ? "" : this.getPrice(),
                     this.getCount() == null ? "" : this.getCount(),
-                    fenToYuan(getTotal())
+                    getTotal()
             );
         } else if (TableTypeEnum.FUSHUWU == tableTypeEnum) {
             return RowRenderData.build(
@@ -65,19 +72,26 @@ public class Row {
                     StringUtils.defaultString(this.getSubcategory()),
                     this.getCount() == null ? "" : this.getCount(),
                     this.getPrice() == null ? "" : this.getPrice(),
-                    fenToYuan(getTotal())
+                    getTotal()
             );
         }
         return null;
     }
 
     public String getTotal() {
-        if(StringUtils.isNumeric(this.getPrice())&& StringUtils.isNumeric(this.getCount())){
-            DecimalFormat df = new DecimalFormat("0.00");
-            BigDecimal total = new BigDecimal(this.getPrice()).multiply(new BigDecimal(this.getCount()));
-            return df.format(total);
+        if(this.total!=null){
+            //总价不用计算
+            return this.total;
         }
-        return "";
+        if(!NumberUtils.isParsable(this.getPrice())){
+            throw new RuntimeException("price invalid"+this.price);
+        }
+        if(!NumberUtils.isParsable(this.getCount())){
+            throw new RuntimeException("count invalid"+this.price);
+        }
+        DecimalFormat df = new DecimalFormat("0.00");
+        BigDecimal total = new BigDecimal(this.getPrice()).multiply(new BigDecimal(this.getCount()));
+        return df.format(total);
     }
 
 
