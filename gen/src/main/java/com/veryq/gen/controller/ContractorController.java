@@ -117,6 +117,7 @@ public class ContractorController {
             data.setTitle(table.getTitle());
             data.setPersonIdno(contractor.getPerson().getIdno());
             data.setAgreementId(contractor.getAgreementId());
+            data.setPersonAddress(contractor.getPerson().getAddress());
             data.setPersonName(contractor.getPerson().getName());
             MiniTableRenderData miniTableRenderData = new MiniTableRenderData(table.getHeader(), styledItems, MiniTableRenderData.WIDTH_A4_MEDIUM_FULL);
             miniTableRenderData.setStyle(headStyle);
@@ -143,8 +144,8 @@ public class ContractorController {
 
             FileConvertor.genWord(sourcepath, data, wordpath);//生成word
             FileInputStream in = new FileInputStream(wordpath);
-            ExcelUtil excelutil = new ExcelUtil();
-            excelutil.createFooter(new XWPFDocument(in),"公司电话","公司地址");
+//            ExcelUtil excelutil = new ExcelUtil();
+//            excelutil.createFooter(new XWPFDocument(in),"公司电话","公司地址");
             FileConvertor.toPdf(wordpath, pdfpath);//word 转pdf
             File targetFile = new File(pdfpath);
             response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");

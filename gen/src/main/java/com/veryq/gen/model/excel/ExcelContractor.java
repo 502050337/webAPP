@@ -13,3 +13,4 @@ public class ExcelContractor {
     private String personIdno;
     private MiniTableRenderData order;
 }
+
