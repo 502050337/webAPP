@@ -22,6 +22,9 @@ import static com.veryq.gen.util.ExcelUtil.*;
 @Service
 public class ContractorService {
 
+    public static void main(String[] args) {
+        System.out.println(StringUtils.substringAfterLast("220-100-300","-"));
+    }
 
     @Autowired
     ContractorDao dao;
@@ -75,10 +78,10 @@ public class ContractorService {
         if (row.getCell(4) != null) {
 
             if (getValue(row.getCell(4)).toString().contains("—")) {
-                String price = StringUtils.substringBeforeLast(getValue(row.getCell(4)).toString(), "—");
+                String price = StringUtils.substringAfterLast(getValue(row.getCell(4)).toString(), "—");
                 model.setPrice(price);
             } else if (getValue(row.getCell(4)).toString().contains("-")) {
-                String price = StringUtils.substringBeforeLast(getValue(row.getCell(4)).toString(), "-");
+                String price = StringUtils.substringAfterLast(getValue(row.getCell(4)).toString(), "-");
                 model.setPrice(price);
             } else {
                 String price = getValue(row.getCell(4)) + "";

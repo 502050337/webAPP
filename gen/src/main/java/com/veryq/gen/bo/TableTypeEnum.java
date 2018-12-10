@@ -48,15 +48,15 @@ public enum TableTypeEnum {
             headTextStyle.setFontFamily("微软雅黑");
             headTextStyle.setFontSize(9);
             headTextStyle.setColor("000000");
-            return RowRenderData.build(new TextRenderData("序号", headTextStyle),
-                    new TextRenderData("名称", headTextStyle), new TextRenderData("类别", headTextStyle),
+            return RowRenderData.build(new TextRenderData("序号", headTextStyle),new TextRenderData("类别", headTextStyle),
+                    new TextRenderData("名称", headTextStyle),
                     new TextRenderData("数量", headTextStyle), new TextRenderData("补偿标准", headTextStyle),
                     new TextRenderData("补偿标准（元）", headTextStyle));
         }
 
         @Override
         public String getTitle() {
-            return "征收集体土地构筑物、附属设施补偿登记表（表五-2B）";
+            return "征收集体土地构筑物、附属设施补偿登记表（表五-2）";
         }
     }, JIANZHUWU {
         @Override
@@ -73,7 +73,7 @@ public enum TableTypeEnum {
 
         @Override
         public String getTitle() {
-            return "征收集体土地构筑物、附属设施补偿登记表（表五-2A）";
+            return "征收集体土地构筑物、附属设施补偿登记表（表五）";
         }
     };
     String title;
