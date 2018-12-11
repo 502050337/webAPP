@@ -46,7 +46,7 @@ public class Row {
     }
 
     public RowRenderData toRowRenderData(TableTypeEnum tableTypeEnum) {
-        if (TableTypeEnum.LINGMU == tableTypeEnum) {
+        if (TableTypeEnum.LINGMU_LINGXING == tableTypeEnum|| TableTypeEnum.LINGMU_CHENGPIAN == tableTypeEnum || TableTypeEnum.LINGMU_HUAHUI == tableTypeEnum) {
             return RowRenderData.build(
                     this.seq,
                     StringUtils.defaultString(this.getName()),
