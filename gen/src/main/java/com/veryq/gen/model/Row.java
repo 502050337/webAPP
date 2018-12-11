@@ -49,9 +49,9 @@ public class Row {
         if (TableTypeEnum.LINGMU == tableTypeEnum) {
             return RowRenderData.build(
                     this.seq,
-                    StringUtils.defaultString(this.getSubcategory()),
-                    StringUtils.defaultString(this.getSubname()),
                     StringUtils.defaultString(this.getName()),
+                    StringUtils.defaultString(this.getSubname()),
+                    "",
                     this.getPrice() == null ? "" : this.getPrice(),
                     this.getCount() == null ? "" : this.getCount(),
                     getTotal()

@@ -76,9 +76,15 @@ public class ContractorController {
         return mssg;
     }
 
+
     @RequestMapping("/_excelimport1")
     public String _excelimport1() {
-        File excelFile = new File("E:/征收集体土地构筑物、附属设施补偿标准1.xlsx");
+        String dir = System.getProperty("user.home") + File.separator + "genpdf" + File.separator;
+        File dirFile=new File(dir);
+        if(!dirFile.exists()) {
+            dirFile.mkdir();
+        };
+        File excelFile = new File(dir+"1.xlsx");
         String mssg;
         Integer count = bo.excelimport(excelFile);
         if (count < 0) {
