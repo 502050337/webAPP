@@ -46,7 +46,7 @@ public class Row {
     }
 
     public RowRenderData toRowRenderData(TableTypeEnum tableTypeEnum) {
-        if (TableTypeEnum.LINGMU_LINGXING == tableTypeEnum|| TableTypeEnum.LINGMU_CHENGPIAN == tableTypeEnum || TableTypeEnum.LINGMU_HUAHUI == tableTypeEnum) {
+        if (TableTypeEnum.LINGMU == tableTypeEnum) {
             return RowRenderData.build(
                     this.seq,
                     StringUtils.defaultString(this.getName()),
@@ -69,7 +69,7 @@ public class Row {
             return RowRenderData.build(
                     this.seq,
                     StringUtils.defaultString(this.getName()),
-                    StringUtils.defaultString(this.getSubcategory()),
+                    StringUtils.defaultString(this.getSubname()),
                     this.getCount() == null ? "" : this.getCount(),
                     this.getPrice() == null ? "" : this.getPrice(),
                     getTotal()
