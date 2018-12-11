@@ -6,6 +6,8 @@ import java.util.List;
 
 @Data
 public class Contractor {
+
+    private String id;//唯一标识
     private String agreementId; //协议编号
     private String name;//合同名称
     private Person person; //户主信息
@@ -17,6 +19,7 @@ public class Contractor {
         contractor.setName(this.name);
         contractor.setPersonName(this.getPerson().getName());
         contractor.setPersonIdno(this.getPerson().getIdno());
+        contractor.setId(this.getId());
         contractor.setJosn(JSON.stringify(this));
         return contractor;
     }

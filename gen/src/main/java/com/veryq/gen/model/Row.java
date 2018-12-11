@@ -88,7 +88,7 @@ public class Row {
     }
 
     public String getTotal() {
-        if(this.total!=null){
+        if(StringUtils.isNotEmpty(this.total)){
             //总价不用计算
             return this.total;
         }

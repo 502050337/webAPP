@@ -40,12 +40,13 @@ public class ContractorController {
 
 
     @GetMapping("/{id}")
-    public void getContractorById(@PathVariable("id")  String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        bo.getContractorById(id);
+    @ResponseBody
+    public String getContractorById(@PathVariable("id")  String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+       return bo.getContractorById(id).getJosn();
     }
 
-
     @PostMapping("/_search")
+    @ResponseBody
     public List<com.veryqy.jooq.tables.pojos.Contractor> searchContractor(@RequestBody  Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
         com.veryqy.jooq.tables.pojos.Contractor jooqContractor=new com.veryqy.jooq.tables.pojos.Contractor();
         BeanUtils.copyProperties(contractor,jooqContractor);

@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 import static com.veryq.gen.util.ExcelUtil.*;
 
@@ -107,14 +108,35 @@ public class ContractorService {
 
     @Transactional
     public void save(String userId,Contractor contractor){
-        com.veryqy.jooq.tables.pojos.Contractor jooqContractor= contractor.toJOOQContractor();
-        jooqContractor.setCreateDate(new Timestamp(System.currentTimeMillis()));
-        jooqContractor.setCreateBy(userId);
-        String contratorId=dao.save(jooqContractor);
+        if (StringUtils.isNotEmpty(contractor.getId())) {
+            //更新记录
+            //清理行
+            List<com.veryqy.jooq.tables.pojos.Order> orderList = dao.getOrdersByContractId(contractor.getId());
+            for (com.veryqy.jooq.tables.pojos.Order one : orderList) {
+                dao.deleteRowByOrderId(one.getId());
+            }
+            //清理表
+            dao.deleteOrdersByContractorId(contractor.getId());
+
+            //更新合同信息
+            com.veryqy.jooq.tables.pojos.Contractor jooqContractor= contractor.toJOOQContractor();
+            jooqContractor.setCreateDate(new Timestamp(System.currentTimeMillis()));
+            jooqContractor.setCreateBy(userId);
+            dao.update(jooqContractor);
+        }else{
+            //新增记录
+            String contratorId=UUID.randomUUID().toString();
+            contractor.setId(contratorId);
+            com.veryqy.jooq.tables.pojos.Contractor jooqContractor= contractor.toJOOQContractor();
+            jooqContractor.setCreateDate(new Timestamp(System.currentTimeMillis()));
+            jooqContractor.setCreateBy(userId);
+            dao.save(jooqContractor);
+        }
+
         List<Order> orders = contractor.getOrders();
         for (Order one : orders) {
             com.veryqy.jooq.tables.pojos.Order jooqOrder = one.toJooqOrder();
-            jooqOrder.setContractorId(contratorId);
+            jooqOrder.setContractorId(contractor.getId());
             String orderId=dao.save(jooqOrder);
             one.getItems().stream().filter(item->item.isChecked()).forEach(item->{
                 com.veryqy.jooq.tables.pojos.Row row = item.toJooqRow();

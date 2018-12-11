@@ -1,14 +1,18 @@
 package com.veryq.gen.dao;
 
+import com.veryq.gen.util.NullAwareBeanUtilsBean;
 import com.veryqy.jooq.tables.pojos.Commodity;
 import com.veryqy.jooq.tables.pojos.Contractor;
 import com.veryqy.jooq.tables.pojos.Order;
 import com.veryqy.jooq.tables.pojos.Row;
+import com.veryqy.jooq.tables.records.ContractorRecord;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -32,14 +36,51 @@ public class ContractorDao {
         return ctx.select().from(COMMODITY).fetch().into(Commodity.class);
     }
 
-    public String save(Contractor model) {
-        String uuid = UUID.randomUUID().toString();
-        model.setId(uuid);
+    public void save(Contractor model) {
         int row=ctx.newRecord(CONTRACTOR, model).store();
         if(row==1){
-            return uuid;
+            return;
         }
         throw new RuntimeException("保存失败");
+    }
+
+
+    public void update(Contractor model) {
+        if(model.getId()==null){
+            throw new  RuntimeException("更新时ID不能为空");
+        }
+        ContractorRecord record = getContractorRecord(model.getId());
+        BeanUtilsBean notNull=new NullAwareBeanUtilsBean();
+        try {
+            notNull.copyProperties(record, model);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        int row = ctx.executeUpdate(record);
+        if(row!=1) throw new  RuntimeException("更新失败");
+    }
+
+    private ContractorRecord getContractorRecord(String id) {
+       return ctx.selectFrom(CONTRACTOR).where(CONTRACTOR.ID.eq(id)).fetchOne();
+    }
+
+
+    public void delete(String  id) {
+        int row=ctx.delete(CONTRACTOR).where(CONTRACTOR.ID.eq(id)).execute();
+        if(row==1){
+            return;
+        }
+        throw new RuntimeException("保存失败");
+    }
+
+    public void deleteOrdersByContractorId(String  contractorID) {
+        ctx.delete(ORDER).where(ORDER.CONTRACTOR_ID.eq(contractorID)).execute();
+    }
+
+    public void deleteRowByOrderId(String  orderId) {
+        int row=ctx.delete(ROW).where(ROW.ORDER_ID.eq(orderId)).execute();
     }
 
     public String save(Order model) {
@@ -67,6 +108,9 @@ public class ContractorDao {
         return ctx.select().from(CONTRACTOR).where(CONTRACTOR.ID.eq(id)).fetchOne().into(Contractor.class);
     }
 
+    public List<Order> getOrdersByContractId(String contractId) {
+        return ctx.select().from(ORDER).where(ORDER.CONTRACTOR_ID.eq(contractId)).fetch().into(Order.class);
+    }
 
     public List<Contractor> searchContractor(Contractor contractor) {
         SelectConditionStep<Record5<String, String, String, Timestamp, String>> where = ctx.select(CONTRACTOR.ID,CONTRACTOR.AGREEMENT_ID,CONTRACTOR.NAME,CONTRACTOR.CREATE_DATE,CONTRACTOR.CREATE_BY).from(CONTRACTOR).where(CONTRACTOR.ID.eq(CONTRACTOR.ID));
