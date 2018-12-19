@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!--
+                颜色可选
+                "%black", "%red", "%green","%yellow","%blue", "%magenta","%cyan", "%white", "%gray",
+                "%boldRed","%boldGreen", "%boldYellow", "%boldBlue", "%boldMagenta","%boldCyan", "%boldWhite" and "%highlight" 。
+                例:%red(信息),则 信息 这两个字为红色
+                其它 %p 表示level,%t表示线程名
+            -->
+			<!--<pattern>-->
+			<!--%green(%d{yy-MM-dd HH:mm:ss.SSS}) %highlight(%5p) %magenta([%4.15t]) %cyan(%-40.40logger{39}) %M %boldMagenta(%3.3L) %blue(:) %m%n-->
+			<!--</pattern>-->
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-40.40logger{39} [%file:%line] - %msg%n
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+
+	<appender name="base"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${user.home}/logs/@pom.artifactId@/@pom.version@/base.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<FileNamePattern>${user.home}/logs/@pom.artifactId@/@pom.version@/%d{yy-MM-dd}.%i.base.log</FileNamePattern>
+			<maxFileSize>10MB</maxFileSize>
+			<totalSizeCap>10GB</totalSizeCap>
+			<!-- keep 7 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-40.40logger{39} [%file:%line] - %msg%n
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+
+	<appender name="thirdpartapi"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${user.home}/logs/@pom.artifactId@/@pom.version@/thirdpartapi.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<FileNamePattern>${user.home}/logs/@pom.artifactId@/@pom.version@/%d{yy-MM-dd}.%i.thirdpartapi.log</FileNamePattern>
+			<maxFileSize>10MB</maxFileSize>
+			<totalSizeCap>10GB</totalSizeCap>
+			<!-- keep 7 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-40.40logger{39} [%file:%line] - %msg%n
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+
+	<appender name="localapi"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${user.home}/logs/@pom.artifactId@/@pom.version@/localapi.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<FileNamePattern>${user.home}/logs/@pom.artifactId@/@pom.version@/%d{yy-MM-dd}.%i.localapi.log</FileNamePattern>
+			<maxFileSize>10MB</maxFileSize>
+			<totalSizeCap>10GB</totalSizeCap>
+			<!-- keep 7 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-40.40logger{39} [%file:%line] - %msg%n
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+
+	<appender name="localservice"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${user.home}/logs/@pom.artifactId@/@pom.version@/service.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<FileNamePattern>${user.home}/logs/@pom.artifactId@/@pom.version@/%d{yy-MM-dd}.%i.localservice.log</FileNamePattern>
+			<maxFileSize>10MB</maxFileSize>
+			<totalSizeCap>10GB</totalSizeCap>
+			<!-- keep 7 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-40.40logger{39} [%file:%line] - %msg%n
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+
+	<appender name="globallog"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${user.home}/logs/@pom.artifactId@/@pom.version@/globallog.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<FileNamePattern>${user.home}/logs/@pom.artifactId@/@pom.version@/%d{yy-MM-dd}.%i.globallog.log</FileNamePattern>
+			<maxFileSize>10MB</maxFileSize>
+			<totalSizeCap>10GB</totalSizeCap>
+			<!-- keep 7 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-40.40logger{39} [%file:%line] - %msg%n
+			</Pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+
+
+
+	<!--异步输出-->
+	<appender name="globallog_async" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>10</queueSize>
+		<appender-ref ref="globallog"/>
+		<includeCallerData>true</includeCallerData>
+	</appender>
+
+
+	<appender name="localservice_async" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>10</queueSize>
+		<appender-ref ref="localservice"/>
+		<includeCallerData>true</includeCallerData>
+	</appender>
+
+
+	<appender name="thirdpartapi_async" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>10</queueSize>
+		<appender-ref ref="thirdpartapi"/>
+		<includeCallerData>true</includeCallerData>
+	</appender>
+
+
+
+	<root level="info">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="base" />
+	</root>
+	<logger name="org.springframework" additivity="false" level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="base" />
+	</logger>
+	<logger name="org.jooq"  additivity="false" level="debug">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="base" />
+	</logger>
+	<logger name="com.veryqy.autoconfigure.log" additivity="false" level="DEBUG">
+		<appender-ref ref="globallog_async" />
+	</logger>
+	<logger name="com.veryqy.gen.controller" additivity="false" level="DEBUG">
+		<appender-ref ref="localapi" />
+	</logger>
+	<logger name="com.veryqy.gen.bo" additivity="false" level="DEBUG">
+		<appender-ref ref="localservice" />
+	</logger>
+
+
+</configuration>
