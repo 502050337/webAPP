@@ -17,6 +17,7 @@ import java.io.IOException;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
+
 public class JSON {
 
     private static ObjectMapper objectMapper=new ObjectMapper();
@@ -26,8 +27,8 @@ public class JSON {
             return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            throw new RuntimeException("非法数据",e);
         }
-        return "";
     }
 
     public static <T> T parse(String str,Class<T> cls) throws IOException {

@@ -123,7 +123,7 @@ public class ContractorDao {
         if(StringUtils.isNotEmpty(contractor.getAgreementId())){
             where=where.and(CONTRACTOR.AGREEMENT_ID.like(contractor.getAgreementId()));
         }
-        return where.fetch().into(Contractor.class);
+        return where.orderBy(CONTRACTOR.CREATE_DATE).fetch().into(Contractor.class);
     }
 
 

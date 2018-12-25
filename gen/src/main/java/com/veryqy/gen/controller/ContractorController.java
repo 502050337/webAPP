@@ -10,12 +10,12 @@ import com.veryqy.gen.model.Contractor;
 import com.veryqy.gen.model.Order;
 import com.veryqy.gen.model.Row;
 import com.veryqy.gen.model.excel.ExcelContractor;
-import com.veryqy.gen.util.ExcelUtil;
 import com.veryqy.gen.util.JSON;
 import com.veryqy.jooq.tables.pojos.Commodity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.jooq.tools.StringUtils;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -124,7 +123,7 @@ public class ContractorController {
             }).map(item -> item.toRowRenderData(table)).collect(Collectors.toList());
 
             Double totalSum = orders1.getItems().stream().mapToDouble(item ->
-                    Double.parseDouble(item.getTotal())
+                    Double.parseDouble(item.getTotalString())
             ).sum();
             DecimalFormat df = new DecimalFormat("0.00");
             indexeditems.add(new Row("总价",  df.format(totalSum)).toRowRenderData(table));
@@ -173,10 +172,52 @@ public class ContractorController {
         }
     }
 
-
+    /**
+     *
+     * http://localhost:8080/gen/contractor
+     * @param contractor
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     @PutMapping
     public void save(@RequestBody Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        log.debug(JSON.stringify(contractor));
+        if(contractor==null){
+            throw new RuntimeException("合同不能未空");
+        }
+        if(contractor.getOrders()==null){
+            throw new RuntimeException("合同订单数不能未空");
+        }
+        if(contractor.getOrders().size()==0){
+            throw new RuntimeException("合同订单数不能为0");
+        }
+        for(Order order:contractor.getOrders()){
+            for(Row row:order.getItems()){
+                if(row.isChecked()){
+                    if(!NumberUtils.isParsable(row.getPrice())){
+                        throw new RuntimeException(
+                                "表:"+StringUtils.defaultString(order.getTitle())
+                                + "\n 分类:"+StringUtils.defaultString(row.getCategory())
+                                + "\n 名称:"+StringUtils.defaultString(row.getName())
+                                + "\n 价格"+StringUtils.defaultString(row.getPrice())+"有错误，请检查"
+                                );
+                    }
+                    if(!NumberUtils.isParsable(row.getCount())){
+                        throw new RuntimeException(
+                                "表:"+StringUtils.defaultString(order.getTitle())
+                                        + "\n 分类:"+StringUtils.defaultString(row.getCategory())
+                                        + "\n 名称:"+StringUtils.defaultString(row.getName())
+                                        + "\n 数量"+StringUtils.defaultString(row.getCount())+"有错误，请检查"
+                        );
+                    }
+                }
+            }
+        }
+        String j=JSON.stringify(contractor);
+        log.debug("save",j);
+//        if(1==1){
+//            throw new RuntimeException("111111111");
+//        }
         bo.save("1",contractor);
     }
 

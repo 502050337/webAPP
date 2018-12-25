@@ -1,6 +1,7 @@
 package com.veryqy.gen.model;
 
 import com.deepoove.poi.data.RowRenderData;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.veryqy.gen.bo.TableTypeEnum;
 import lombok.Data;
 import lombok.experimental.Tolerate;
@@ -38,13 +39,14 @@ public class Row {
     private String total;//总价
 
     public static void main(String[] args) {
-        System.out.println(NumberUtils.isParsable("1113.00"));;
+        System.out.println(NumberUtils.isParsable("200.00"));;
     }
     public Row(String seq, String total) {
         this.seq = seq;
         this.total = total;
     }
 
+    @JsonIgnore
     public RowRenderData toRowRenderData(TableTypeEnum tableTypeEnum) {
         if (TableTypeEnum.LINGMU == tableTypeEnum) {
             return RowRenderData.build(
@@ -54,7 +56,7 @@ public class Row {
                     "",
                     this.getPrice() == null ? "" : this.getPrice(),
                     this.getCount() == null ? "" : this.getCount(),
-                    getTotal()
+                    getTotalString()
             );
         } else if (TableTypeEnum.QOMGMIAO == tableTypeEnum) {
             return RowRenderData.build(
@@ -63,7 +65,7 @@ public class Row {
                     StringUtils.defaultString(this.getName()),
                     this.getPrice() == null ? "" : this.getPrice(),
                     this.getCount() == null ? "" : this.getCount(),
-                    getTotal()
+                    getTotalString()
             );
         } else if (TableTypeEnum.FUSHUWU == tableTypeEnum) {
             return RowRenderData.build(
@@ -72,7 +74,7 @@ public class Row {
                     StringUtils.defaultString(this.getSubname()),
                     this.getCount() == null ? "" : this.getCount(),
                     this.getPrice() == null ? "" : this.getPrice(),
-                    getTotal()
+                    getTotalString()
             );
         }else if (TableTypeEnum.JIANZHUWU == tableTypeEnum) {
             return RowRenderData.build(
@@ -81,22 +83,24 @@ public class Row {
                     StringUtils.defaultString(this.getSubcategory()),
                     this.getCount() == null ? "" : this.getCount(),
                     this.getPrice() == null ? "" : this.getPrice(),
-                    getTotal()
+                    getTotalString()
             );
         }
         throw new RuntimeException("不支持的表类型"+tableTypeEnum);
     }
 
-    public String getTotal() {
+
+    @JsonIgnore
+    public String getTotalString() {
         if(StringUtils.isNotEmpty(this.total)){
             //总价不用计算
             return this.total;
         }
         if(!NumberUtils.isParsable(this.getPrice())){
-            throw new RuntimeException("price invalid"+this.price);
+            throw new RuntimeException("price invalid:"+this.price);
         }
         if(!NumberUtils.isParsable(this.getCount())){
-            throw new RuntimeException("count invalid"+this.price);
+            throw new RuntimeException("count invalid:"+this.count);
         }
         DecimalFormat df = new DecimalFormat("0.00");
         BigDecimal total = new BigDecimal(this.getPrice()).multiply(new BigDecimal(this.getCount()));
@@ -104,6 +108,7 @@ public class Row {
     }
 
 
+    @JsonIgnore
     public com.veryqy.jooq.tables.pojos.Row toJooqRow(){
         com.veryqy.jooq.tables.pojos.Row row=new com.veryqy.jooq.tables.pojos.Row();
         row.setChecked(this.isChecked());
@@ -114,7 +119,7 @@ public class Row {
         row.setRemark(this.getRemark());
         row.setSubcategory(this.getSubcategory());
         row.setSubname(this.getSubname());
-        row.setTotal(this.getTotal());
+        row.setTotal(this.getTotalString());
         row.setUnit(this.getUnit());
         return row;
     }
