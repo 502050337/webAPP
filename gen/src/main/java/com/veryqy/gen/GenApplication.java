@@ -19,7 +19,6 @@ public class GenApplication implements ApplicationListener<ApplicationReadyEvent
 
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-//		excelImportService.gen();
 	}
 
 
