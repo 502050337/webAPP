@@ -3,7 +3,6 @@ package com.veryqy.gen.util;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.UUID;
@@ -30,8 +29,6 @@ public class CurrencyUtils {
     }
 
     public static String getUUID32(){
-        String uuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
-        return uuid;
-//  return UUID.randomUUID().toString().replace("-", "").toLowerCase();
+        return UUID.randomUUID().toString().replace("-", "").toLowerCase();
     }
 }

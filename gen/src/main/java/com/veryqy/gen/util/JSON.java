@@ -5,19 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-/**
- * @ProjectName: gen-parent
- * @Package: com.veryq.gen.util
- * @ClassName: JSON
- * @Description: java类作用描述
- * @Author: 唐朝
- * @CreateDate: 2018/12/8 23:05
- * @UpdateUser: 更新者
- * @UpdateDate: 2018/12/8 23:05
- * @UpdateRemark: 更新说明
- * @Version: 1.0
- */
-
 public class JSON {
 
     private static ObjectMapper objectMapper=new ObjectMapper();

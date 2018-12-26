@@ -21,12 +21,16 @@ import java.util.UUID;
 @Service
 public class ContractorService {
 
+    private final ContractorDao dao;
+
+    @Autowired
+    public ContractorService(ContractorDao dao) {
+        this.dao = dao;
+    }
+
     public static void main(String[] args) {
         System.out.println(StringUtils.substringAfterLast("220-100-300","-"));
     }
-
-    @Autowired
-    ContractorDao dao;
 
     @Transactional
     public Integer excelimport(File excelFile) {

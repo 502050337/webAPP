@@ -12,9 +12,12 @@ public enum TableTypeEnum {
             headTextStyle.setFontFamily("微软雅黑");
             headTextStyle.setFontSize(9);
             headTextStyle.setColor("000000");
-            return RowRenderData.build(new TextRenderData("序号", headTextStyle),
-                    new TextRenderData("种植类别", headTextStyle), new TextRenderData("田、地名称", headTextStyle),
-                    new TextRenderData("补偿标准（元/亩）", headTextStyle), new TextRenderData("数量（亩）", headTextStyle),
+            return RowRenderData.build(
+                    new TextRenderData("序号", headTextStyle),
+                    new TextRenderData("种植类别", headTextStyle),
+                    new TextRenderData("田、地名称", headTextStyle),
+                    new TextRenderData("补偿标准（元/亩）", headTextStyle),
+                    new TextRenderData("数量（亩）", headTextStyle),
                     new TextRenderData("补偿金额（元）", headTextStyle));
         }
 
@@ -29,10 +32,14 @@ public enum TableTypeEnum {
             headTextStyle.setFontFamily("微软雅黑");
             headTextStyle.setFontSize(9);
             headTextStyle.setColor("000000");
-            return RowRenderData.build(new TextRenderData("序号", headTextStyle),
-                    new TextRenderData("林木种类", headTextStyle), new TextRenderData("规格", headTextStyle),
-                    new TextRenderData("位置", headTextStyle), new TextRenderData("补偿标准（元/根、株、公斤）", headTextStyle),
-                    new TextRenderData("数量（根、株、公斤）", headTextStyle), new TextRenderData("补偿金额（元）", headTextStyle));
+            return RowRenderData.build(
+                    new TextRenderData("序号", headTextStyle),
+                    new TextRenderData("林木种类", headTextStyle),
+                    new TextRenderData("规格", headTextStyle),
+                    new TextRenderData("位置", headTextStyle),
+                    new TextRenderData("补偿标准（元/根、株、公斤）", headTextStyle),
+                    new TextRenderData("数量（根、株、公斤）", headTextStyle),
+                    new TextRenderData("补偿金额（元）", headTextStyle));
         }
 
         @Override
@@ -46,9 +53,12 @@ public enum TableTypeEnum {
             headTextStyle.setFontFamily("微软雅黑");
             headTextStyle.setFontSize(9);
             headTextStyle.setColor("000000");
-            return RowRenderData.build(new TextRenderData("序号", headTextStyle),
-                    new TextRenderData("名称", headTextStyle), new TextRenderData("类别", headTextStyle),
-                    new TextRenderData("数量", headTextStyle), new TextRenderData("补偿标准", headTextStyle),
+            return RowRenderData.build(
+                    new TextRenderData("序号", headTextStyle),
+                    new TextRenderData("名称", headTextStyle),
+                    new TextRenderData("类别", headTextStyle),
+                    new TextRenderData("数量", headTextStyle),
+                    new TextRenderData("补偿标准", headTextStyle),
                     new TextRenderData("补偿标准（元）", headTextStyle));
         }
 

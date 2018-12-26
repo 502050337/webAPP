@@ -39,13 +39,18 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ContractorController {
 
-    @Autowired
+    private final
     ContractorService bo;
+
+    @Autowired
+    public ContractorController(ContractorService bo) {
+        this.bo = bo;
+    }
 
 
     @GetMapping("/{id}")
     @ResponseBody
-    public String getContractorById(@PathVariable("id")  String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String getContractorById(@PathVariable("id")  String id, HttpServletRequest request, HttpServletResponse response) {
        if(id==null)
        {
             throw new RuntimeException("id 必填");
@@ -55,7 +60,7 @@ public class ContractorController {
 
     @PostMapping("/_search")
     @ResponseBody
-    public List<com.veryqy.jooq.tables.pojos.Contractor> searchContractor(@RequestBody  Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public List<com.veryqy.jooq.tables.pojos.Contractor> searchContractor(@RequestBody  Contractor contractor, HttpServletRequest request, HttpServletResponse response) {
         com.veryqy.jooq.tables.pojos.Contractor jooqContractor=new com.veryqy.jooq.tables.pojos.Contractor();
         BeanUtils.copyProperties(contractor,jooqContractor);
         return   bo.searchContractor(jooqContractor);
@@ -91,8 +96,8 @@ public class ContractorController {
         String dir = System.getProperty("user.home") + File.separator + "genpdf" + File.separator;
         File dirFile=new File(dir);
         if(!dirFile.exists()) {
-            dirFile.mkdir();
-        };
+            dirFile.mkdirs();
+        }
         File excelFile = new File(dir+"1.xlsx");
         String mssg;
         Integer count = bo.excelimport(excelFile);
@@ -175,13 +180,12 @@ public class ContractorController {
     /**
      *
      * http://localhost:8080/gen/contractor
-     * @param contractor
-     * @param request
-     * @param response
-     * @throws Exception
+     * @param contractor json内容
+     * @param request 备用参数
+     * @param response 备用参数
      */
     @PutMapping
-    public void save(@RequestBody Contractor contractor, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void save(@RequestBody Contractor contractor, HttpServletRequest request, HttpServletResponse response) {
         if(contractor==null){
             throw new RuntimeException("合同不能未空");
         }
