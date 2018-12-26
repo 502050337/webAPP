@@ -22,9 +22,12 @@ import static com.veryqy.jooq.Tables.*;
 @Component
 public class ContractorDao {
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    private final DSLContext ctx;
+
     @Autowired
-    DSLContext ctx;
+    public ContractorDao(DSLContext ctx) {
+        this.ctx = ctx;
+    }
 
     public int add(Commodity model) {
         String uuid = UUID.randomUUID().toString();
@@ -53,9 +56,7 @@ public class ContractorDao {
         BeanUtilsBean notNull=new NullAwareBeanUtilsBean();
         try {
             notNull.copyProperties(record, model);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
         int row = ctx.executeUpdate(record);
@@ -80,7 +81,7 @@ public class ContractorDao {
     }
 
     public void deleteRowByOrderId(String  orderId) {
-        int row=ctx.delete(ROW).where(ROW.ORDER_ID.eq(orderId)).execute();
+       ctx.delete(ROW).where(ROW.ORDER_ID.eq(orderId)).execute();
     }
 
     public String save(Order model) {
